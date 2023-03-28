@@ -1,2 +1,2 @@
 # bfv-hacker-checker
-Choose playesr of current match for a cheater check via bfvhackers.com
+Choose players of current match for a cheater check via bfvhackers.com
