@@ -1,23 +1,25 @@
-import os.path
+import os
 import sys
 from configparser import ConfigParser
-from os.path import expanduser
-from typing import Final
 
-from PyQt5.QtWidgets import QApplication
-
-from lib.Widget import Widget
+from lib.App import App
 
 if __name__ == '__main__':
     config: ConfigParser = ConfigParser()
     config.read('config.ini')
 
-    app: QApplication = QApplication(sys.argv)
-    gui: Widget = Widget(
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    print(data_dir)
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+
+    app: App = App(
+        name='Battlefield V Hacker Checker',
+        icon_path="res/icon.png",
         url=config.get('app', 'url'),
         key=config.get('user', 'key'),
         default_player=config.get('user', 'default_player'),
-        data_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+        data_dir=data_dir
     )
-    gui.show()
-    sys.exit(app.exec_())
+
+    sys.exit(app.run())
