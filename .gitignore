@@ -3,3 +3,5 @@ __pycache__
 /build
 /dist
 /data
+/mat
+/bin/Tesseract-OCR

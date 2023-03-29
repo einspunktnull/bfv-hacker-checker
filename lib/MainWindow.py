@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, Any
 
 from PyQt5.QtCore import QUrl, Qt, QUrlQuery
 from PyQt5.QtGui import QIcon
@@ -18,11 +18,16 @@ class MainWindow(QMainWindow):
         self.setGeometry(0, 0, 600, 420)
         self.setCentralWidget(self.__web_View)
 
-    def call_url(self, url_: str):
-        url = QUrl(url_)
+    def call_url(self, url: str, query_params: Dict[str, Any] = None):
+        if query_params is None:
+            query_params = {}
+        url_: QUrl = QUrl(url)
         query = QUrlQuery()
-        url.setQuery(query)
-        self.__web_View.load(url)
+        for key, value in query_params.items():
+            query.addQueryItem(key, value)
+        url_.setQuery(query)
+        self.__web_View.load(url_)
 
-    def show_exception(self, e: Exception):
+    @staticmethod
+    def show_exception(e: Exception):
         print(e)

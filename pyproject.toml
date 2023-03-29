@@ -14,6 +14,9 @@ pyqt5-sip = "^12.11.1"
 pyqtwebengine = "^5.15.6"
 pynput = "^1.7.6"
 pywin32 = "^306"
+opencv-python = "^4.7.0.72"
+numpy = "^1.24.2"
+pytesseract = "^0.3.10"
 
 [tool.poetry.dev-dependencies]
 
