@@ -1,16 +1,16 @@
 import os
-from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict
+import shutil
+import zipfile
+from time import sleep
+from typing import Any, Dict, Optional
 
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QApplication
-from numpy import ndarray
-from pytesseract import pytesseract
 
-from lib.ListenerThread import ListenerThread
+from lib.ActivationKey import ActivationKey
+from lib.thread.DetectPlayerNameThread import DetectPlayerNameThread
+from lib.thread.UserInputListenerThread import UserInputListenerThread
 from lib.MainWindow import MainWindow
-from lib.NpImgUtil import NpImgUtil
-from lib.Util import Util
 
 
 class App:
@@ -20,78 +20,75 @@ class App:
             icon_path: str,
             url: str,
             key: str,
-            default_player: str,
             data_dir: str,
-            tesseract_exe: str
+            tesseract_exe: str,
+            tesseract_zip: str,
+            bin_dir: str,
+            clear_data_dir: bool,
+            debug: bool = False
     ):
         self.__url: str = url
         self.__key: str = key
-        self.__default_player: str = default_player
         self.__data_dir: str = data_dir
         self.__tesseract_exe: str = tesseract_exe
+        self.__tesseract_zip: str = tesseract_zip
+        self.__bin_dir: str = bin_dir
+        self.__clear_data_dir: bool = clear_data_dir
+        self.__debug: bool = debug
 
         self.__qapp: QApplication = QApplication([])
         self.__main_window: MainWindow = MainWindow(name, icon_path)
-        self.__is_busy: bool = False
-        self.__listener_thread: ListenerThread = ListenerThread(self.__check_it)
+        self.__listener_thread: Optional[UserInputListenerThread] = None
+        self.__detect_thread: Optional[DetectPlayerNameThread] = None
 
     def run(self) -> int:
         self.__main_window.show()
+        try:
+            self.__prepare()
+            self.__init()
+            return self.__exec()
+        except Exception as e:
+            self.__main_window.show_exception(e)
+            return -1
+
+    def __prepare(self) -> None:
+        is_allowed_key: bool = self.__key in ActivationKey.__members__
+        if not is_allowed_key:
+            raise RuntimeError('invalid key in config.ini')
+        shutil.rmtree(self.__data_dir)
+        os.makedirs(self.__data_dir, exist_ok=True)
+        if not os.path.exists(self.__tesseract_exe):
+            self.__main_window.show_message('extracting tesseract ...')
+            with zipfile.ZipFile(self.__tesseract_zip, 'r') as zip_ref:
+                zip_ref.extractall(self.__bin_dir)
+            self.__main_window.show_message('... done')
+
+    def __init(self) -> None:
+        self.__listener_thread: UserInputListenerThread = UserInputListenerThread(self.__key, self.__check_it)
         self.__listener_thread.start()
-        code: int = self.__qapp.exec_()
-        return code
 
-    def __check_it(self, x: int, y: int):
-        print(f'__check_it ({x},{y})')
-        if not self.__is_busy:
-            self.__is_busy = True
-            try:
-                player_name: str = self.__detect_playername()
-                query_params: Dict[str, Any] = {'name': player_name}
-                self.__main_window.call_url(self.__url, query_params)
-            except Exception as e:
-                MainWindow.show_exception(e)
-            self.__is_busy = False
+    def __exec(self) -> int:
+        return self.__qapp.exec_()
 
-    def __detect_playername(self) -> str:
-        screenshot_path: str = self.__create_screenshot()
-        image_data: ndarray = self.__preprocess_screenshot(screenshot_path)
-        alto: Any = pytesseract.image_to_string(image_data, lang='eng', config='').strip()
-        # alto: Any = pytesseract.image_to_alto_xml(image_data, lang='eng', config='').strip()
-        print(alto)
-        return self.__default_player
+    def __check_it(self, mouse_x: int, mouse_y: int) -> None:
+        # print(f'__check_it ({mouse_x},{mouse_y})')
+        if self.__detect_thread is None:
+            self.__detect_thread = DetectPlayerNameThread(
+                self.__on_playername_detected,
+                self.__on_thread_exception,
+                mouse_x,
+                mouse_y,
+                self.__data_dir if self.__debug else None
+            )
+            self.__detect_thread.start(QThread.Priority.HighPriority)
 
-    def __create_screenshot(self) -> str:
-        now = datetime.now()
-        date_time_string: str = now.strftime("%Y%m%d%H%M%S")
-        img_save_path: str = f'{self.__data_dir}{os.path.sep}window_screenshot_{date_time_string}.png'
-        return Util.make_window_screenshot('Battlefield™ V', img_save_path)
+    def __on_playername_detected(self, player_name: str):
+        query_params: Dict[str, Any] = {'name': player_name}
+        self.__main_window.call_url(self.__url, query_params)
+        sleep(1)
+        self.__detect_thread = None
 
-    def __preprocess_screenshot(self, image_path: str) -> ndarray:
-        image_name_stem: str = Path(image_path).stem
-        image_data: ndarray = NpImgUtil.open(image_path)
-        image_data_mod: ndarray = NpImgUtil.copy(
-            image_data,
-            os.path.join(self.__data_dir, f'{image_name_stem}.00_copy.png')
-        )
-        image_data_mod = NpImgUtil.normalize(
-            image_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.01_normalized.png')
-        )
-        image_data_mod = NpImgUtil.greyscale(
-            image_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.02_grey.png')
-        )
-        image_data_mod = NpImgUtil.bitwise_not(
-            image_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.03_inverted.png')
-        )
-        image_data_mod = NpImgUtil.threshold(
-            image_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.04_thresholded.png')
-        )
-        image_data_mod = NpImgUtil.gaussian_blur(
-            image_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.05_blurred.png')
-        )
-        return image_data_mod
+    def __on_thread_exception(self, exception: Exception):
+        self.__main_window.show_exception(exception)
+        sleep(1)
+        self.__detect_thread = None

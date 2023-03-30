@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
         self.__msg_View: QLabel = QLabel()
         self.setWindowTitle(self.__window_title)
         self.setWindowIcon(QIcon(self.__icon_path))
-        self.setGeometry(0, 0, 600, 420)
+        self.setGeometry(2700, 50, 600, 420)
         self.setCentralWidget(self.__web_View)
 
     def call_url(self, url: str, query_params: Dict[str, Any] = None):
@@ -28,6 +28,8 @@ class MainWindow(QMainWindow):
         url_.setQuery(query)
         self.__web_View.load(url_)
 
-    @staticmethod
-    def show_exception(e: Exception):
-        print(e)
+    def show_message(self, msg: str):
+        print(msg)
+
+    def show_exception(self, exception: Exception):
+        print(exception)

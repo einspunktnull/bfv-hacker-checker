@@ -2,14 +2,18 @@ from typing import Callable
 
 from PyQt5.QtCore import QThread, pyqtSignal
 from pynput import keyboard, mouse
+from pynput.keyboard import Key
 from pynput.mouse import Button
 
+from lib.types import PyQtSignal
 
-class ListenerThread(QThread):
-    __signal: pyqtSignal = pyqtSignal(int, int)
 
-    def __init__(self, thread_fct: Callable):
+class UserInputListenerThread(QThread):
+    __signal: PyQtSignal = pyqtSignal(int, int)
+
+    def __init__(self, key: str, thread_fct: Callable):
         super().__init__()
+        self.__key: str = key
         self.__signal.connect(thread_fct)
         self.__keyboard_listener: keyboard.Listener = keyboard.Listener(
             on_press=self.__on_key_press,
@@ -26,10 +30,12 @@ class ListenerThread(QThread):
                 self.__signal.emit(x, y)
 
     def __on_key_press(self, key):
-        if key == keyboard.Key.ctrl_l:
-            if not self.__is_key_pressed:
-                self.__is_key_pressed = True
+        if isinstance(key, Key):
+            if key.name == self.__key:
+                if not self.__is_key_pressed:
+                    self.__is_key_pressed = True
 
     def __on_key_release(self, key):
-        if key == keyboard.Key.ctrl_l:
-            self.__is_key_pressed = False
+        if isinstance(key, Key):
+            if key.name == self.__key:
+                self.__is_key_pressed = False
