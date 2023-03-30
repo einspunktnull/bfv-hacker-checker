@@ -55,7 +55,8 @@ class App:
         is_allowed_key: bool = self.__key in ActivationKey.__members__
         if not is_allowed_key:
             raise RuntimeError('invalid key in config.ini')
-        shutil.rmtree(self.__data_dir)
+        if os.path.exists(self.__data_dir):
+            shutil.rmtree(self.__data_dir)
         os.makedirs(self.__data_dir, exist_ok=True)
         if not os.path.exists(self.__tesseract_exe):
             self.__main_window.show_message('extracting tesseract ...')
