@@ -1,7 +1,8 @@
+import pywintypes
 import win32con
 import win32gui
 
-from lib.types import BoundingBox
+from lib.types import BoundingBox, InvalidWindowHandleException
 
 
 class WindowUtil:
@@ -16,8 +17,9 @@ class WindowUtil:
         win32gui.ShowWindow(window_handle, win32con.SW_NORMAL)
         try:
             win32gui.SetForegroundWindow(window_handle)
-        except:
-            pass
+        except pywintypes.error as err:
+            if err.winerror:
+                raise InvalidWindowHandleException('invalid window handle', err)
         return window_handle
 
     @staticmethod

@@ -1,22 +1,42 @@
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 
-from PyQt5.QtCore import QUrl, Qt, QUrlQuery
+from PyQt5.QtCore import QUrl, QUrlQuery, QSettings, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QLabel, QMainWindow
+from injector import inject
+
+from lib.Config import Config
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, window_title: str, icon_path: str):
+    @inject
+    def __init__(self, config: Config):
         super().__init__()
-        self.__window_title: str = window_title
-        self.__icon_path: str = icon_path
+        self.__config: Config = config
         self.__web_View: QWebEngineView = QWebEngineView()
         self.__msg_View: QLabel = QLabel()
-        self.setWindowTitle(self.__window_title)
-        self.setWindowIcon(QIcon(self.__icon_path))
-        self.setGeometry(2700, 50, 600, 420)
+        self.setWindowTitle(config.app_name)
+        self.setWindowIcon(QIcon(config.icon_path))
+
+        self.__settings: QSettings = QSettings("einspunktnull", config.app_name)
+        geometry = self.__settings.value("MainWindow/Geometry")
+        if geometry:
+            self.restoreGeometry(geometry)
+        state = self.__settings.value("MainWindow/State")
+        if state:
+            self.restoreState(state)
+
+        self.setMinimumWidth(600)
+        self.setMinimumHeight(500)
         self.setCentralWidget(self.__web_View)
+
+        if config.always_on_top:
+            self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+
+    def closeEvent(self, event):
+        self.__settings.setValue("MainWindow/Geometry", self.saveGeometry())
+        self.__settings.setValue("MainWindow/State", self.saveState())
 
     def call_url(self, url: str, query_params: Dict[str, Any] = None):
         if query_params is None:

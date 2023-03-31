@@ -24,6 +24,21 @@ files = [
 ]
 
 [[package]]
+name = "injector"
+version = "0.20.1"
+description = "Injector - Python dependency injection framework, inspired by Guice"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "injector-0.20.1-py2.py3-none-any.whl", hash = "sha256:f8fc5994176a8cf6b0455a8d1558c588733474ef17795553464e7e9d2f94eaf5"},
+    {file = "injector-0.20.1.tar.gz", hash = "sha256:8661b49a2f8309ce61e3a6a82b7acb5e225c4bde8e17d1610c893a670dff223a"},
+]
+
+[package.extras]
+dev = ["black", "check-manifest", "dataclasses", "mypy", "pytest", "pytest-cov (>=2.5.1)"]
+
+[[package]]
 name = "macholib"
 version = "1.16.2"
 description = "Mach-O header analysis and editing"
@@ -603,4 +618,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "b3dd407a5b79ebed2c33d8c94addfba1a643dfdaa3d6d4e7cb49689eeecc4a82"
+content-hash = "7c87b03393ac3aefdc9729cb56825a7b53b243fb77216e4a6d919cdaa7f06244"
