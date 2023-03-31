@@ -43,7 +43,7 @@ if __name__ == '__main__':
         name='Battlefield V Hacker Checker',
         icon_path="res/icon.png",
         url=config.get('app', 'url'),
-        key=config.get('user', 'key'),
+        key=config.get('user', 'hotkey'),
         data_dir=DATA_DIR,
         tesseract_exe=TESS_EXE_PATH,
         tesseract_zip=TESS_ZIP_PATH,

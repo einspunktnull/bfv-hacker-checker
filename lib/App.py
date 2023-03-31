@@ -7,7 +7,7 @@ from typing import Any, Dict, Optional
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QApplication
 
-from lib.ActivationKey import ActivationKey
+from lib.Hotkey import Hotkey
 from lib.thread.DetectPlayerNameThread import DetectPlayerNameThread
 from lib.thread.UserInputListenerThread import UserInputListenerThread
 from lib.MainWindow import MainWindow
@@ -52,7 +52,7 @@ class App:
             return -1
 
     def __prepare(self) -> None:
-        is_allowed_key: bool = self.__key in ActivationKey.__members__
+        is_allowed_key: bool = self.__key in Hotkey.__members__
         if not is_allowed_key:
             raise RuntimeError('invalid key in config.ini')
         if os.path.exists(self.__data_dir):

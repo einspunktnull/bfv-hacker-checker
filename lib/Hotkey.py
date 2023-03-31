@@ -3,7 +3,7 @@ import enum
 from pynput.keyboard import Key
 
 
-class ActivationKey(enum.Enum):
+class Hotkey(enum.Enum):
     alt = Key.alt
     alt_l = Key.alt_l
     alt_r = Key.alt_r
