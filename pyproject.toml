@@ -18,6 +18,7 @@ opencv-python = "^4.7.0.72"
 numpy = "^1.24.2"
 pytesseract = "^0.3.10"
 injector = "^0.20.1"
+humanfriendly = "^10.0"
 
 [tool.poetry.dev-dependencies]
 

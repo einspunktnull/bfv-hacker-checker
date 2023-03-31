@@ -88,5 +88,9 @@ class Config:
         return self.__config_parser.getint('user', 'poi_height', fallback=150)
 
     @property
-    def always_on_top(self) -> int:
+    def always_on_top(self) -> bool:
         return self.__config_parser.getboolean('app', 'always_on_top', fallback=False)
+
+    @property
+    def default_playername(self) -> str:
+        return self.__config_parser.get('user', 'default_playername', fallback='Breeksn')

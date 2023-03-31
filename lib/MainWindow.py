@@ -52,4 +52,4 @@ class MainWindow(QMainWindow):
         print(msg)
 
     def show_exception(self, exception: Exception):
-        print(exception)
+        print(str(exception))

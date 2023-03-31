@@ -83,30 +83,30 @@ class DetectPlayerNameThread(QThread):
         return left, top, right, bottom
 
     def __preprocess_screenshot(self, screenshot_data: ndarray, screenshot_path: str) -> ndarray:
-        image_name_stem: str = Path(screenshot_path).stem
+        image_name_stem: str = Path(screenshot_path).stem if screenshot_path else None
         screenshot_data_mod: ndarray = ImageUtil.copy(
             screenshot_data,
-            os.path.join(self.__data_dir, f'{image_name_stem}.00_copy.png') if self.__data_dir else None
+            os.path.join(self.__data_dir, f'{image_name_stem}.00_copy.png') if screenshot_path else None
         )
         screenshot_data_mod = ImageUtil.normalize(
             screenshot_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.01_normalized.png') if self.__data_dir else None
+            os.path.join(self.__data_dir, f'{image_name_stem}.01_normalized.png') if screenshot_path else None
         )
         screenshot_data_mod = ImageUtil.greyscale(
             screenshot_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.02_grey.png') if self.__data_dir else None
+            os.path.join(self.__data_dir, f'{image_name_stem}.02_grey.png') if screenshot_path else None
         )
         screenshot_data_mod = ImageUtil.bitwise_not(
             screenshot_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.03_inverted.png') if self.__data_dir else None
+            os.path.join(self.__data_dir, f'{image_name_stem}.03_inverted.png') if screenshot_path else None
         )
         screenshot_data_mod = ImageUtil.threshold(
             screenshot_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.04_thresholded.png') if self.__data_dir else None
+            os.path.join(self.__data_dir, f'{image_name_stem}.04_thresholded.png') if screenshot_path else None
         )
         screenshot_data_mod = ImageUtil.gaussian_blur(
             screenshot_data_mod,
-            os.path.join(self.__data_dir, f'{image_name_stem}.05_blurred.png') if self.__data_dir else None
+            os.path.join(self.__data_dir, f'{image_name_stem}.05_blurred.png') if screenshot_path else None
         )
         return screenshot_data_mod
 
