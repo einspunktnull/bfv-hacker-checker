@@ -1,5 +1,8 @@
 import os
+import re
+import shutil
 import zipfile
+from typing import Pattern
 
 import humanfriendly
 
@@ -47,3 +50,55 @@ class FileUtil:
     def unzip(zip_file: str, dest_dir: str) -> None:
         with zipfile.ZipFile(zip_file, 'r') as zip_ref:
             zip_ref.extractall(dest_dir)
+
+    @staticmethod
+    def zip(path: str, zip_filename, wrap: bool = True):
+        with zipfile.ZipFile(zip_filename, mode='w') as archive:
+            if os.path.isfile(path):
+                archive.write(path, os.path.basename(path))
+            elif os.path.isdir(path):
+                dirname = os.path.dirname(path)
+                for foldername, subfolders, filenames in os.walk(path):
+                    rel_dir_path = os.path.relpath(foldername, dirname if wrap else path)
+                    archive.write(foldername, rel_dir_path)
+                    for filename in filenames:
+                        file_path = os.path.join(foldername, filename)
+                        rel_file_path = os.path.relpath(file_path, dirname if wrap else path)
+                        archive.write(file_path, rel_file_path)
+            else:
+                print(f"{path} is not a valid file or directory.")
+
+    @staticmethod
+    def copy(source, destination):
+        if os.path.isfile(source):
+            shutil.copy(source, destination)
+        elif os.path.isdir(source):
+            shutil.copytree(source, destination)
+        else:
+            raise ValueError(f"{source} is not a valid file or directory.")
+
+    @staticmethod
+    def remove_file_or_directory(path, ignore_errors=False):
+        if os.path.isfile(path):
+            os.remove(path)
+        elif os.path.isdir(path):
+            shutil.rmtree(path, ignore_errors=ignore_errors)
+        else:
+            raise ValueError(f"{path} is not a valid file or directory.")
+
+    @staticmethod
+    def replace_in_file(filename, search_string, replace_string):
+        with open(filename, 'r') as f:
+            contents = f.read()
+        if re.search(search_string, contents):
+            new_contents = re.sub(search_string, replace_string, contents)
+            with open(filename, 'w') as f:
+                f.write(new_contents)
+            print(f"Replaced '{search_string}' with '{replace_string}' in file '{filename}'.")
+        else:
+            print(f"'{search_string}' not found in file '{filename}'.")
+
+    @staticmethod
+    def str_to_file(path: str, content: str):
+        with open(path, 'w') as f:
+            f.write(content)
