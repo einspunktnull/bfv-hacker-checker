@@ -7,9 +7,9 @@ from lib.version import VERSION
 
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
 _ICON_PATH: Final[str] = "res/icon.png"
-_THIS_DIR: Final[str] = os.getcwd()
-_DATA_DIR: Final[str] = os.path.join(_THIS_DIR, "data")
-_BIN_DIR: Final[str] = os.path.join(_THIS_DIR, "bin")
+_ROOT_DIR: Final[str] = os.getcwd()
+_DATA_DIR: Final[str] = os.path.join(_ROOT_DIR, "data")
+_BIN_DIR: Final[str] = os.path.join(_ROOT_DIR, "bin")
 _TESS_ZIP_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR.zip')
 _TESS_DIR_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR')
 _TESS_EXE_PATH: str = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
