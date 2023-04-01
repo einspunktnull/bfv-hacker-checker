@@ -3,6 +3,8 @@ from argparse import ArgumentParser, Namespace
 from configparser import ConfigParser
 from typing import Final
 
+from lib.version import VERSION
+
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
 _ICON_PATH: Final[str] = "res/icon.png"
 _THIS_DIR: Final[str] = os.getcwd()
@@ -11,6 +13,8 @@ _BIN_DIR: Final[str] = os.path.join(_THIS_DIR, "bin")
 _TESS_ZIP_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR.zip')
 _TESS_DIR_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR')
 _TESS_EXE_PATH: str = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
+_LOGGER_NAME: str = 'THA_LOGGA'
+_POETRY_TOML: str = os.path.join(_ROOT_DIR, 'ui')
 
 
 class Config:
@@ -62,6 +66,18 @@ class Config:
     @property
     def tesseract_zip(self) -> str:
         return _TESS_ZIP_PATH
+
+    @property
+    def ui_file(self) -> str:
+        return _UI_FILE_PATH
+
+    @property
+    def logger_name(self) -> str:
+        return _LOGGER_NAME
+
+    @property
+    def version(self) -> str:
+        return VERSION
 
     @property
     def clear_data_dir(self) -> bool:

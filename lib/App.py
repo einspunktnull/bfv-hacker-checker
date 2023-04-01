@@ -1,9 +1,8 @@
 import os
 import shutil
 import sys
-import zipfile
 from time import sleep
-from typing import Any, Dict, Optional, Callable
+from typing import Any, Dict, Optional
 
 from PyQt5.QtWidgets import QApplication
 from injector import singleton, Injector
