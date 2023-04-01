@@ -9,8 +9,6 @@ python = ">=3.10,<3.12"
 pyinstaller = "^5.9.0"
 poethepoet = "^0.19.0"
 pillow = "^9.4.0"
-pyqt5 = "^5.15.9"
-pyqt5-sip = "^12.11.1"
 pyqtwebengine = "^5.15.6"
 pynput = "^1.7.6"
 pywin32 = "^306"
@@ -19,6 +17,8 @@ numpy = "^1.24.2"
 pytesseract = "^0.3.10"
 injector = "^0.20.1"
 humanfriendly = "^10.0"
+pyqt5 = "^5.15.9"
+pyqt5-tools = "^5.15.9.3.3"
 
 [tool.poetry.dev-dependencies]
 
