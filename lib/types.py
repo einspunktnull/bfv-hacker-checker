@@ -1,11 +1,10 @@
 import enum
-from typing import Union, Tuple, List, Any
+from typing import Union, Tuple, Final
 
 from PyQt5.QtCore import pyqtSignal, pyqtBoundSignal
 
 PyQtSignal = Union[pyqtSignal, pyqtBoundSignal]
 BoundingBox = Tuple[int, int, int, int]
-Args = List[Any]
 
 
 class AppException(Exception):
@@ -23,3 +22,4 @@ class InvalidWindowHandleException(AppException):
 class ExitCode(enum.IntEnum):
     OK = 0
     DETECT_THREAD_FAILED = 1
+

@@ -7,13 +7,15 @@ from PyQt5.QtWidgets import QLabel, QMainWindow
 from injector import inject
 
 from lib.Config import Config
+from lib.Logger import Logger
 
 
 class MainWindow(QMainWindow):
     @inject
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, logger: Logger):
         super().__init__()
         self.__config: Config = config
+        self.__logger: Logger = logger
         self.__web_View: QWebEngineView = QWebEngineView()
         self.__msg_View: QLabel = QLabel()
         self.setWindowTitle(config.app_name)
@@ -35,6 +37,7 @@ class MainWindow(QMainWindow):
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
     def closeEvent(self, event):
+        self.__logger.info('close event')
         self.__settings.setValue("MainWindow/Geometry", self.saveGeometry())
         self.__settings.setValue("MainWindow/State", self.saveState())
 
@@ -46,10 +49,11 @@ class MainWindow(QMainWindow):
         for key, value in query_params.items():
             query.addQueryItem(key, value)
         url_.setQuery(query)
+        self.__logger.debug(f'call url {url_.url()}')
         self.__web_View.load(url_)
 
     def show_message(self, msg: str):
-        print(msg)
+        self.__logger.debug('MainWindow.show_message()', msg)
 
     def show_exception(self, exception: Exception):
-        print(str(exception))
+        self.__logger.debug('MainWindow.show_exception()', type(exception).__name__, str(exception))

@@ -3,6 +3,7 @@ __pycache__
 /build
 /dist
 /data
+/log
 /mat
 /bin/Tesseract-OCR
 /bin/Tesseract-OCR.zip
