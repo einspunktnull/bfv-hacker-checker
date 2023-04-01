@@ -11,4 +11,4 @@ source_file = 'lib/version.py'
 with open(source_file, 'w') as f:
     f.write(f'VERSION: str = "{version}"\n')
 
-print(f'Version number updated to {version}')
+print(f'Version number set to {version}')
