@@ -5,9 +5,11 @@ from typing import Final
 
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
 _ICON_PATH: Final[str] = "res/icon.png"
-_THIS_DIR: Final[str] = os.getcwd()
-_DATA_DIR: Final[str] = os.path.join(_THIS_DIR, "data")
-_BIN_DIR: Final[str] = os.path.join(_THIS_DIR, "bin")
+_ROOT_DIR: Final[str] = os.getcwd()
+_UI_DIR: str = os.path.join(_ROOT_DIR, 'ui')
+_DATA_DIR: Final[str] = os.path.join(_ROOT_DIR, "data")
+_BIN_DIR: Final[str] = os.path.join(_ROOT_DIR, "bin")
+_UI_FILE_PATH: str = os.path.join(_UI_DIR, 'form.ui')
 _TESS_ZIP_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR.zip')
 _TESS_DIR_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR')
 _TESS_EXE_PATH: str = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
@@ -62,6 +64,10 @@ class Config:
     @property
     def tesseract_zip(self) -> str:
         return _TESS_ZIP_PATH
+
+    @property
+    def ui_file(self) -> str:
+        return _UI_FILE_PATH
 
     @property
     def clear_data_dir(self) -> bool:
