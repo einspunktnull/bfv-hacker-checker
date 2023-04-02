@@ -6,6 +6,7 @@ from typing import Any, Dict, Optional
 
 import qdarktheme
 from PyQt5.QtWidgets import QApplication
+from pytesseract import pytesseract
 
 from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
@@ -46,6 +47,7 @@ class App:
         return self.__exec()
 
     def __prepare(self) -> None:
+        pytesseract.tesseract_cmd = self.__config.tesseract_exe
         is_allowed_key: bool = self.__config.hotkey in Hotkey.__members__
         if not is_allowed_key:
             raise RuntimeError('invalid hotkey defined in config.ini')
