@@ -5,20 +5,12 @@ import subprocess
 from typing import Final
 
 from lib.util.FileUtil import FileUtil
+from set_version import set_version
 
 BASE_NAME: Final[str] = r"bfv-hacker-checker"
 DIST_DIR: Final[str] = os.path.join('dist', BASE_NAME)
 BIN_DIR: Final[str] = os.path.join(DIST_DIR, 'bin')
-VERSION_SOURCE_FILE: Final[str] = r'lib\version.py'
-
-
-def set_version() -> str:
-    with open('pyproject.toml', 'r') as f:
-        contents: str = f.read()
-        version: str = re.search(r'^version = "([\d\.]+)"', contents, re.MULTILINE).group(1)
-    FileUtil.str_to_file(VERSION_SOURCE_FILE, f'VERSION: str = "{version}"\n')
-    return version
-
+VERSION_SOURCE_FILE: Final[str] = r'lib/version.py'
 
 if __name__ == '__main__':
     shutil.rmtree(DIST_DIR, ignore_errors=True)

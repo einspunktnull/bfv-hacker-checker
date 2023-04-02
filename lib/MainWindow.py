@@ -1,53 +1,47 @@
 from typing import Dict, Any
 
-from PyQt5.QtCore import QUrl, QUrlQuery, QSettings, Qt
+from PyQt5.QtCore import QUrl, QUrlQuery, QSettings
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QLabel, QMainWindow
-from PyQt5.uic import loadUiType
+from PyQt5.QtWidgets import QMainWindow
 from injector import inject
 
+from lib.AboutDialog import AboutDialog
 from lib.Config import Config
+from lib.GlobalInjector import GlobalInjector
+from lib.Logger import Logger
+from lib.Ui_MainWindow import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
     @inject
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, logger: Logger):
         super().__init__()
+        self.__config: Config = config
+        self.__logger: Logger = logger
+        GlobalInjector.bind(AboutDialog, to=AboutDialog)
+        self.__ui: Ui_MainWindow = Ui_MainWindow()
+        self.__web_View: QWebEngineView = QWebEngineView()
+        self.__ini_ui()
 
-        # Load the UI file and generate Python code
-        Ui_MainWindow, _ = loadUiType(config.ui_file)
+    def __ini_ui(self):
+        self.__ui.setupUi(self)
+        self.setWindowTitle(f'{self.__config.app_name} {self.__config.version}')
+        self.setWindowIcon(QIcon(self.__config.icon_path))
+        self.__ui.actionAbout.triggered.connect(self.__on_about_click)
+        # self.__web_View.show()
+        # self.__ui.centralwidget.addWidget(self.__web_View)
 
-        # Create an instance of the form
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-
-
-        # self.__config: Config = config
-        # self.__web_View: QWebEngineView = QWebEngineView()
-        # self.__msg_View: QLabel = QLabel()
-        # self.setWindowTitle(config.app_name)
-        # self.setWindowIcon(QIcon(config.icon_path))
-        #
-        #
-        # self.__settings: QSettings = QSettings("einspunktnull", config.app_name)
-        # geometry = self.__settings.value("MainWindow/Geometry")
-        # if geometry:
-        #     self.restoreGeometry(geometry)
-        # state = self.__settings.value("MainWindow/State")
-        # if state:
-        #     self.restoreState(state)
-        #
+        # self.ui.actionAbout.triggered.connect(self.__on_about_click)
         # self.setMinimumWidth(600)
         # self.setMinimumHeight(500)
         # self.setCentralWidget(self.__web_View)
-        #
         # if config.always_on_top:
         #     self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        # self.__restore()
 
     def closeEvent(self, event):
-        self.__settings.setValue("MainWindow/Geometry", self.saveGeometry())
-        self.__settings.setValue("MainWindow/State", self.saveState())
+        self.__save()
 
     def call_url(self, url: str, query_params: Dict[str, Any] = None):
         if query_params is None:
@@ -64,3 +58,21 @@ class MainWindow(QMainWindow):
 
     def show_exception(self, exception: Exception):
         print(str(exception))
+
+    def __on_about_click(self):
+        self.__logger.debug('MainWindow.__on_about_click')
+        dlg: AboutDialog = GlobalInjector.get(AboutDialog)
+        dlg.exec_()
+
+    def __restore(self):
+        self.__settings: QSettings = QSettings("einspunktnull", self.__config.app_name)
+        geometry = self.__settings.value("MainWindow/Geometry")
+        if geometry:
+            self.restoreGeometry(geometry)
+        state = self.__settings.value("MainWindow/State")
+        if state:
+            self.restoreState(state)
+
+    def __save(self):
+        self.__settings.setValue("MainWindow/Geometry", self.saveGeometry())
+        self.__settings.setValue("MainWindow/State", self.saveState())
