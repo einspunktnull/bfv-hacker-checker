@@ -8,7 +8,7 @@ This is an open-source **Windows-only** application written with
 [Python programming language](https://en.wikipedia.org/wiki/Python_(programming_language)).
 In the Battlefield game it makes a screenshot of an area around your mouse pointer and recognize the Playername via
 [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition). This is done by the bundled open-source software
-[Tesseract](https://en.wikipedia.org/wiki/Tesseract_(software)).
+[Tesseract](https://en.wikipedia.org/wiki/Tesseract_(software)). **Important** Teaseract folder needs to be in Path.
 When a playername was detected it shows up the bfvhackers.com website
 with the detected playername.
 
