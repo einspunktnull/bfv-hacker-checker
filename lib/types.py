@@ -1,5 +1,5 @@
 import enum
-from typing import Union, Tuple
+from typing import Union, Tuple, Final
 
 from PyQt5.QtCore import pyqtSignal, pyqtBoundSignal
 
@@ -22,3 +22,4 @@ class InvalidWindowHandleException(AppException):
 class ExitCode(enum.IntEnum):
     OK = 0
     DETECT_THREAD_FAILED = 1
+

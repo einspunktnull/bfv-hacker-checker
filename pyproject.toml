@@ -6,7 +6,6 @@ authors = ["Albrecht Nitsche <albrechtnitsche@mail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
-pyinstaller = "^5.9.0"
 poethepoet = "^0.19.0"
 pillow = "^9.4.0"
 pyqtwebengine = "^5.15.6"
@@ -21,6 +20,7 @@ pyqt5 = "^5.15.9"
 pyqt5-tools = "^5.15.9.3.3"
 
 [tool.poetry.dev-dependencies]
+pyinstaller = "^5.9.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -28,6 +28,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
 app = "python main.py"
-build = "build.bat"
+build = "python build.py"
 
 

@@ -10,9 +10,12 @@ from xml.dom.minidom import Document, Element
 from PyQt5.QtCore import QThread, pyqtSignal
 from numpy import ndarray
 
+from lib.GlobalInjector import GlobalInjector
+from lib.Logger import Logger
 from lib.types import PyQtSignal, BoundingBox, NoPlayernameFoundException, InvalidWindowHandleException
 from lib.util.ImageUtil import ImageUtil
 from lib.util.OcrUtil import OcrUtil
+from lib.util.StringUtil import StringUtil
 from lib.util.WindowUtil import WindowUtil
 
 
@@ -32,7 +35,6 @@ class DetectPlayerNameThread(QThread):
             data_dir: str = None
     ):
         super().__init__()
-        # print('DetectPlayerNameThread', mouse_x, mouse_y, data_dir)
         self.__SUCCESS_SIGNAL.connect(succes_thread_fct)
         self.__EXCEPTION_SIGNAL.connect(exception_thread_fct)
         self.__data_dir: str = data_dir
@@ -40,20 +42,20 @@ class DetectPlayerNameThread(QThread):
         self.__mouse_y: int = mouse_y
         self.__poi_width_half: int = int(poi_width / 2)
         self.__poi_height_half: int = int(poi_height / 2)
+        self.__logger: Logger = GlobalInjector.get(Logger)
 
     def run(self):
         screenshot_path: Optional[str] = None
         if self.__data_dir:
-            now: datetime = datetime.now()
-            date_time_string: str = now.strftime("%Y%m%d%H%M%S")
-            basename: str = f'window_screenshot_{date_time_string}.png'
-            screenshot_path = os.path.join(self.__data_dir, basename)
+            basename: str = f'window_screenshot_{StringUtil.get_now_string()}.png'
+            screenshot_path: str = os.path.join(self.__data_dir, basename)
 
         try:
             try:
                 WindowUtil.to_foreground_by_title('Battlefield™ V')
             except InvalidWindowHandleException as exception:
                 pass
+                # self.__logger.debug(exception)
             mouse_bbox: BoundingBox = self.__calculate_bbox()
             screenshot_data: ndarray = ImageUtil.screenshot_region(
                 mouse_bbox,
@@ -83,6 +85,7 @@ class DetectPlayerNameThread(QThread):
         return left, top, right, bottom
 
     def __preprocess_screenshot(self, screenshot_data: ndarray, screenshot_path: str) -> ndarray:
+        self.__logger.debug('DetectPlayerNameThread.__preprocess_screenshot')
         image_name_stem: str = Path(screenshot_path).stem if screenshot_path else None
         screenshot_data_mod: ndarray = ImageUtil.copy(
             screenshot_data,

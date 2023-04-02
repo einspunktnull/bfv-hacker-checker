@@ -3,16 +3,21 @@ from argparse import ArgumentParser, Namespace
 from configparser import ConfigParser
 from typing import Final
 
+from lib.Loglevel import Loglevel
+from lib.version import VERSION
+
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
 _ICON_PATH: Final[str] = "res/icon.png"
 _ROOT_DIR: Final[str] = os.getcwd()
-_UI_DIR: str = os.path.join(_ROOT_DIR, 'ui')
 _DATA_DIR: Final[str] = os.path.join(_ROOT_DIR, "data")
 _BIN_DIR: Final[str] = os.path.join(_ROOT_DIR, "bin")
-_UI_FILE_PATH: str = os.path.join(_UI_DIR, 'form.ui')
+_LOG_DIR: Final[str] = os.path.join(_ROOT_DIR, 'log')
 _TESS_ZIP_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR.zip')
 _TESS_DIR_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR')
-_TESS_EXE_PATH: str = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
+_TESS_EXE_PATH: Final[str] = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
+_LOGGER_NAME: Final[str] = 'THA_LOGGA'
+_UI_DIR: Final[str] = os.path.join(_ROOT_DIR, 'ui')
+_UI_FILE_PATH: Final[str] = os.path.join(_UI_DIR, 'form.ui')
 
 
 class Config:
@@ -58,6 +63,10 @@ class Config:
         return _BIN_DIR
 
     @property
+    def ui_file(self) -> str:
+        return _UI_FILE_PATH
+
+    @property
     def tesseract_exe(self) -> str:
         return _TESS_EXE_PATH
 
@@ -66,8 +75,16 @@ class Config:
         return _TESS_ZIP_PATH
 
     @property
-    def ui_file(self) -> str:
-        return _UI_FILE_PATH
+    def logger_name(self) -> str:
+        return _LOGGER_NAME
+
+    @property
+    def log_dir(self) -> str:
+        return _LOG_DIR
+
+    @property
+    def version(self) -> str:
+        return VERSION
 
     @property
     def clear_data_dir(self) -> bool:
@@ -100,3 +117,9 @@ class Config:
     @property
     def default_playername(self) -> str:
         return self.__config_parser.get('user', 'default_playername', fallback='Breeksn')
+
+    @property
+    def log_level(self) -> Loglevel:
+        lvl: str = self.__config_parser.get('logging', 'level', fallback='DEBUG')
+        log_level: Loglevel = Loglevel.__members__[lvl]
+        return log_level
