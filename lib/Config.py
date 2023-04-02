@@ -123,3 +123,7 @@ class Config:
         lvl: str = self.__config_parser.get('logging', 'level', fallback='DEBUG')
         log_level: Loglevel = Loglevel.__members__[lvl]
         return log_level
+
+    @property
+    def theme(self) -> str:
+        return self.__config_parser.get('app', 'theme', fallback='none')

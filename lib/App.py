@@ -1,8 +1,10 @@
 import os
 import shutil
+import sys
 from time import sleep
 from typing import Any, Dict, Optional
 
+import qdarktheme
 from PyQt5.QtWidgets import QApplication
 
 from lib.Config import Config
@@ -22,7 +24,13 @@ class App:
         self.__config: Config = GlobalInjector.get(Config)
         self.__logger: Logger = GlobalInjector.get(Logger)
 
-        self.__qapp: QApplication = QApplication([])
+        if self.__config.theme != 'none':
+            qdarktheme.enable_hi_dpi()
+
+        self.__qapp: QApplication = QApplication(sys.argv)
+
+        if self.__config.theme != 'none':
+            qdarktheme.setup_theme(self.__config.theme)
 
         GlobalInjector.bind(MainWindow, to=MainWindow)
         self.__main_window: MainWindow = GlobalInjector.get(MainWindow)

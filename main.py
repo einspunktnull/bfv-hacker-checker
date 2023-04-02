@@ -1,6 +1,6 @@
 import sys
 
-from injector import Injector, singleton
+from injector import singleton
 
 from lib.App import App
 from lib.Config import Config

@@ -18,6 +18,7 @@ injector = "^0.20.1"
 humanfriendly = "^10.0"
 pyqt5 = "^5.15.9"
 pyqt5-tools = "^5.15.9.3.3"
+pyqtdarktheme = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 pyinstaller = "^5.9.0"

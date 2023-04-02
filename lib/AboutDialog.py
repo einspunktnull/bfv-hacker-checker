@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QPixmap, QDesktopServices
+from PyQt5.QtGui import QPixmap, QDesktopServices, QIcon
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QLabel
 from injector import inject
 
@@ -11,6 +11,9 @@ class AboutDialog(QDialog):
     @inject
     def __init__(self, config: Config, *args, **kwargs):
         super(AboutDialog, self).__init__(*args, **kwargs)
+
+        self.setWindowTitle(f'About {config.app_name}')
+        self.setWindowIcon(QIcon(config.icon_path))
 
         QBtn = QDialogButtonBox.Ok  # No cancel
         self.buttonBox = QDialogButtonBox(QBtn)

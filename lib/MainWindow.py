@@ -1,6 +1,6 @@
 from typing import Dict, Any
 
-from PyQt5.QtCore import QUrl, QUrlQuery, QSettings
+from PyQt5.QtCore import QUrl, QUrlQuery, QSettings, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QMainWindow
@@ -19,26 +19,25 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.__config: Config = config
         self.__logger: Logger = logger
+        self.__settings: QSettings = QSettings("main_window_settings", self.__config.app_name)
         GlobalInjector.bind(AboutDialog, to=AboutDialog)
         self.__ui: Ui_MainWindow = Ui_MainWindow()
         self.__web_View: QWebEngineView = QWebEngineView()
-        self.__ini_ui()
+        self.__init_ui()
 
-    def __ini_ui(self):
+    def __init_ui(self):
         self.__ui.setupUi(self)
         self.setWindowTitle(f'{self.__config.app_name} {self.__config.version}')
         self.setWindowIcon(QIcon(self.__config.icon_path))
+        self.setMinimumWidth(600)
+        self.setMinimumHeight(500)
+        self.__web_View.resize(400, 500)
+        self.__web_View.show()
+        self.__ui.verticalLayout.addWidget(self.__web_View)
+        self.__restore()
+        if self.__config.always_on_top:
+            self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.__ui.actionAbout.triggered.connect(self.__on_about_click)
-        # self.__web_View.show()
-        # self.__ui.centralwidget.addWidget(self.__web_View)
-
-        # self.ui.actionAbout.triggered.connect(self.__on_about_click)
-        # self.setMinimumWidth(600)
-        # self.setMinimumHeight(500)
-        # self.setCentralWidget(self.__web_View)
-        # if config.always_on_top:
-        #     self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-        # self.__restore()
 
     def closeEvent(self, event):
         self.__save()
@@ -51,7 +50,7 @@ class MainWindow(QMainWindow):
         for key, value in query_params.items():
             query.addQueryItem(key, value)
         url_.setQuery(query)
-        # self.__web_View.load(url_)
+        self.__web_View.load(url_)
 
     def show_message(self, msg: str):
         print(msg)
@@ -65,7 +64,7 @@ class MainWindow(QMainWindow):
         dlg.exec_()
 
     def __restore(self):
-        self.__settings: QSettings = QSettings("einspunktnull", self.__config.app_name)
+
         geometry = self.__settings.value("MainWindow/Geometry")
         if geometry:
             self.restoreGeometry(geometry)
