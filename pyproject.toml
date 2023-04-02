@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bfv-hacker-checker"
-version = "0.2.0"
+version = "0.1.1"
 description = ""
 authors = ["Albrecht Nitsche <albrechtnitsche@mail.com>"]
 
