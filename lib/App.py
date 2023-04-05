@@ -56,7 +56,7 @@ class App:
             shutil.rmtree(self.__config.data_dir)
         if self.__config.debug:
             os.makedirs(self.__config.data_dir, exist_ok=True)
-        if not os.path.exists(self.__config.tesseract_exe):
+        if sys.platform == OS_PLATFORM_WINDOWS and not os.path.exists(self.__config.tesseract_exe):
             self.__main_window.show_message('provisioning tesseract ...')
             FileUtil.merge_files(self.__config.tesseract_zip, self.__config.tesseract_zip)
             FileUtil.unzip(self.__config.tesseract_zip, self.__config.bin_dir)
