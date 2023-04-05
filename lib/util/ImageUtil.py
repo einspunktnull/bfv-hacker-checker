@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image, ImageGrab
 from numpy import ndarray
 
-from lib.types import BoundingBox
+from lib.common import BoundingBox
 
 
 class ImageUtil:
