@@ -5,7 +5,7 @@ from pynput import keyboard, mouse
 from pynput.keyboard import Key
 from pynput.mouse import Button
 
-from lib.types import PyQtSignal
+from lib.common import PyQtSignal
 
 
 class UserInputListenerThread(QThread):

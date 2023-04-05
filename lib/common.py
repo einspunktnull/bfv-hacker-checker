@@ -4,6 +4,11 @@ from typing import Union, Tuple, Final
 
 from PyQt5.QtCore import pyqtSignal, pyqtBoundSignal
 
+OS_PLATFORM: str = sys.platform
+OS_PLATFORM_LINUX: str = "linux"
+OS_PLATFORM_WINDOWS: str = "win32"
+
+
 PyQtSignal = Union[pyqtSignal, pyqtBoundSignal]
 BoundingBox = Tuple[int, int, int, int]
 

@@ -15,7 +15,7 @@ from lib.Logger import Logger
 from lib.MainWindow import MainWindow
 from lib.thread.DetectPlayerNameThread import DetectPlayerNameThread
 from lib.thread.UserInputListenerThread import UserInputListenerThread
-from lib.types import NoPlayernameFoundException, ExitCode
+from lib.common import NoPlayernameFoundException, ExitCode, OS_PLATFORM_WINDOWS
 from lib.util.FileUtil import FileUtil
 
 
@@ -47,7 +47,8 @@ class App:
         return self.__exec()
 
     def __prepare(self) -> None:
-        pytesseract.tesseract_cmd = self.__config.tesseract_exe
+        if sys.platform == OS_PLATFORM_WINDOWS and os.path.exists(self.__config.tesseract_exe):
+            pytesseract.tesseract_cmd = self.__config.tesseract_exe
         is_allowed_key: bool = self.__config.hotkey in Hotkey.__members__
         if not is_allowed_key:
             raise RuntimeError('invalid hotkey defined in config.ini')

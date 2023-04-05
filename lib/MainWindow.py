@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(self.__config.icon_path))
         self.setMinimumWidth(600)
         self.setMinimumHeight(500)
-        self.__web_View.resize(400, 500)
+        # self.__web_View.resize(400, 500)
         self.__web_View.show()
         self.__ui.verticalLayout.addWidget(self.__web_View)
         self.__restore()
@@ -53,10 +53,10 @@ class MainWindow(QMainWindow):
         self.__web_View.load(url_)
 
     def show_message(self, msg: str):
-        print(msg)
+        print("MainWindow.show_message()", msg)
 
     def show_exception(self, exception: Exception):
-        print(str(exception))
+        print("MainWindow.show_exception()", str(exception))
 
     def __on_about_click(self):
         self.__logger.debug('MainWindow.__on_about_click')

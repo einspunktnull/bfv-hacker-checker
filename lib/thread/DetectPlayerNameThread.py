@@ -12,7 +12,7 @@ from numpy import ndarray
 
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
-from lib.types import PyQtSignal, BoundingBox, NoPlayernameFoundException, InvalidWindowHandleException
+from lib.common import PyQtSignal, BoundingBox, NoPlayernameFoundException, InvalidWindowHandleException
 from lib.util.ImageUtil import ImageUtil
 from lib.util.OcrUtil import OcrUtil
 from lib.util.StringUtil import StringUtil
