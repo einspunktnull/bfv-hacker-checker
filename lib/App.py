@@ -13,9 +13,9 @@ from lib.GlobalInjector import GlobalInjector
 from lib.Hotkey import Hotkey
 from lib.Logger import Logger
 from lib.MainWindow import MainWindow
+from lib.common import NoPlayernameFoundException, ExitCode, OS_PLATFORM_WINDOWS
 from lib.thread.DetectPlayerNameThread import DetectPlayerNameThread
 from lib.thread.UserInputListenerThread import UserInputListenerThread
-from lib.common import NoPlayernameFoundException, ExitCode, OS_PLATFORM_WINDOWS
 from lib.util.FileUtil import FileUtil
 
 

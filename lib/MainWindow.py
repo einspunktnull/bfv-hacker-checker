@@ -1,6 +1,8 @@
+import os
+import sys
 from typing import Dict, Any
 
-from PyQt5.QtCore import QUrl, QUrlQuery, QSettings, Qt
+from PyQt5.QtCore import QUrl, QUrlQuery, QSettings, Qt, QSysInfo
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QMainWindow
@@ -11,6 +13,7 @@ from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
 from lib.Ui_MainWindow import Ui_MainWindow
+from lib.common import OS_PLATFORM_LINUX
 
 
 class MainWindow(QMainWindow):
@@ -22,6 +25,11 @@ class MainWindow(QMainWindow):
         self.__settings: QSettings = QSettings("main_window_settings", self.__config.app_name)
         GlobalInjector.bind(AboutDialog, to=AboutDialog)
         self.__ui: Ui_MainWindow = Ui_MainWindow()
+        if sys.platform == OS_PLATFORM_LINUX:
+            prod_type = QSysInfo.productType()
+            if prod_type == "arch" or prod_type == "manjaro":
+                os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--no-sandbox"
+                print("Info: QtWebEngine sandbox disabled")
         self.__web_View: QWebEngineView = QWebEngineView()
         self.__init_ui()
 
