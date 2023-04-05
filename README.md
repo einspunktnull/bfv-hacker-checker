@@ -1,6 +1,9 @@
-# bfv-hacker-checker
+# Battlefield V Hacker Checker
 
-Choose players of current match for a cheater check via bfvhackers.com
+Choose players of current match for a cheater check via the terrific [bfvhackers.com](https://bfvhackers.com/) website.
+(Thx for the great work)
+
+[DEMO: Battlefield V Hacker Checker in action](https://www.youtube.com/watch?v=5wt4q2CYWj4)
 
 ## Purpose of this application and how it works
 
@@ -15,7 +18,7 @@ with the detected playername.
 ## Issues
 
 The detection is not perfect. The tesseract pretrained OCR model is not made for the
-font `Futura PT Medium` which is used in Battlefield V.
+font (Futura PT Medium ?, DIN 1451 ?) which is used in Battlefield V.
 Maybe I will train a specific model for better detection, maybe not. Currently, it is good/bad as is.
 
 ## Installation
