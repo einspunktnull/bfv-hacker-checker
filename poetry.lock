@@ -63,6 +63,20 @@ files = [
 ]
 
 [[package]]
+name = "ewmh"
+version = "0.1.6"
+description = "python implementation of Extended Window Manager Hints, based on Xlib"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ewmh-0.1.6.tar.gz", hash = "sha256:c56b093f7d575181e979bb3a7d15c34065755f811c351ff0a31fede12b09343d"},
+]
+
+[package.dependencies]
+python-xlib = "*"
+
+[[package]]
 name = "humanfriendly"
 version = "10.0"
 description = "Human friendly output for text interfaces using Python"
@@ -146,20 +160,20 @@ files = [
 ]
 
 [[package]]
-name = "opencv-python"
+name = "opencv-python-headless"
 version = "4.7.0.72"
 description = "Wrapper package for OpenCV python bindings."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "opencv-python-4.7.0.72.tar.gz", hash = "sha256:3424794a711f33284581f3c1e4b071cfc827d02b99d6fd9a35391f517c453306"},
-    {file = "opencv_python-4.7.0.72-cp37-abi3-macosx_10_16_x86_64.whl", hash = "sha256:d4f8880440c433a0025d78804dda6901d1e8e541a561dda66892d90290aef881"},
-    {file = "opencv_python-4.7.0.72-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:7a297e7651e22eb17c265ddbbc80e2ba2a8ff4f4a1696a67c45e5f5798245842"},
-    {file = "opencv_python-4.7.0.72-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:cd08343654c6b88c5a8c25bf425f8025aed2e3189b4d7306b5861d32affaf737"},
-    {file = "opencv_python-4.7.0.72-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ebfc0a3a2f57716e709028b992e4de7fd8752105d7a768531c4f434043c6f9ff"},
-    {file = "opencv_python-4.7.0.72-cp37-abi3-win32.whl", hash = "sha256:eda115797b114fc16ca6f182b91c5d984f0015c19bec3145e55d33d708e9bae1"},
-    {file = "opencv_python-4.7.0.72-cp37-abi3-win_amd64.whl", hash = "sha256:812af57553ec1c6709060c63f6b7e9ad07ddc0f592f3ccc6d00c71e0fe0e6376"},
+    {file = "opencv-python-headless-4.7.0.72.tar.gz", hash = "sha256:eea59caa92b28b197f9d2a2dd8275ca3869718b2a857c8e53203de6ef3f9f4db"},
+    {file = "opencv_python_headless-4.7.0.72-cp37-abi3-macosx_10_16_x86_64.whl", hash = "sha256:2f8b60bddd325411cf4664e4dbea729ce20f0c2ffeaedc5c6724b544fdf36e8a"},
+    {file = "opencv_python_headless-4.7.0.72-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:6e13954f705e640e52962dfb252ee1f0a0af7b33cdbe8dd73f27e7e31172b7a2"},
+    {file = "opencv_python_headless-4.7.0.72-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f448aea686069474e701223a2ed192df95f501a092b5e06e39171b4927564692"},
+    {file = "opencv_python_headless-4.7.0.72-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:18dac3147863d2f4beef6b06b784ee115799a7842e2883adc4ae750c432613f9"},
+    {file = "opencv_python_headless-4.7.0.72-cp37-abi3-win32.whl", hash = "sha256:f7f421a2099acbfb69db5e571abaf69a90f43846c3832452c19611efc2c6c926"},
+    {file = "opencv_python_headless-4.7.0.72-cp37-abi3-win_amd64.whl", hash = "sha256:388015ee96816b71e529fed6153aeb68420b69a80efad7aad5445fd7cd7a154c"},
 ]
 
 [package.dependencies]
@@ -238,6 +252,7 @@ files = [
     {file = "Pillow-9.5.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:c1170d6b195555644f0616fd6ed929dfcf6333b8675fcca044ae5ab110ded296"},
     {file = "Pillow-9.5.0-cp311-cp311-win32.whl", hash = "sha256:54f7102ad31a3de5666827526e248c3530b3a33539dbda27c6843d19d72644ec"},
     {file = "Pillow-9.5.0-cp311-cp311-win_amd64.whl", hash = "sha256:cfa4561277f677ecf651e2b22dc43e8f5368b74a25a8f7d1d4a3a243e573f2d4"},
+    {file = "Pillow-9.5.0-cp311-cp311-win_arm64.whl", hash = "sha256:965e4a05ef364e7b973dd17fc765f42233415974d773e82144c9bbaaaea5d089"},
     {file = "Pillow-9.5.0-cp312-cp312-win32.whl", hash = "sha256:22baf0c3cf0c7f26e82d6e1adf118027afb325e703922c8dfc1d5d0156bb2eeb"},
     {file = "Pillow-9.5.0-cp312-cp312-win_amd64.whl", hash = "sha256:432b975c009cf649420615388561c0ce7cc31ce9b2e374db659ee4f7d57a1f8b"},
     {file = "Pillow-9.5.0-cp37-cp37m-macosx_10_10_x86_64.whl", hash = "sha256:5d4ebf8e1db4441a55c509c4baa7a0587a0210f7cd25fcfe74dbbce7a4bd1906"},
@@ -784,4 +799,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "803850c45e78cb2c3e2fe48a082fe18f38dc7b8ba481d140d07e63df0a940449"
+content-hash = "6b1123bd5950e6825f6de400efadbdbafbbd4d9fc4479d738090ba01b5e9b784"
