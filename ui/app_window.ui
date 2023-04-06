@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1490</width>
+    <width>1183</width>
     <height>841</height>
    </rect>
   </property>
@@ -50,7 +50,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1490</width>
+     <width>1183</width>
      <height>21</height>
     </rect>
    </property>
@@ -70,6 +70,9 @@
    </property>
   </action>
   <action name="actionShow_Debugging_Window">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Show Debugging Window</string>
    </property>

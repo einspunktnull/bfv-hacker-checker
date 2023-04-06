@@ -33,8 +33,8 @@ app = "python main.py"
 build = "python build.py"
 set-version = "python set_version.py"
 gen-ui = ["_gen-ui-app-window", "_gen-ui-debug-window"]
-_gen-ui-app-window = "pyuic5 ui/app_window.ui -o lib/ui/UI_AppWindow.py"
-_gen-ui-debug-window = "pyuic5 ui/debug_window.ui -o lib/ui/UI_DebugWindow.py"
+_gen-ui-app-window = "pyuic5 ui/app_window.ui -o lib/ui_generated/Ui_AppWindow.py"
+_gen-ui-debug-window = "pyuic5 ui/debug_window.ui -o lib/ui_generated/Ui_DebugWindow.py"
 
 
 

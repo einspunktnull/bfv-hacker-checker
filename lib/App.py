@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 import qdarktheme
 from PyQt5.QtCore import pyqtSlot, QObject
 from PyQt5.QtWidgets import QApplication
+from injector import singleton
 
 from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
@@ -14,6 +15,7 @@ from lib.thread.DetectPlayerNameThread import DetectPlayerNameThread
 from lib.thread.PrepareThread import PrepareThread
 from lib.thread.UserInputListenerThread import UserInputListenerThread
 from lib.ui.AppWindow import AppWindow
+from lib.ui.DebugWindow import DebugWindow
 
 
 class App(QObject):
@@ -31,9 +33,13 @@ class App(QObject):
         if self.__config.theme != 'none':
             qdarktheme.setup_theme(self.__config.theme)
 
-        GlobalInjector.bind(AppWindow, to=AppWindow)
-        self.__main_window: AppWindow = GlobalInjector.get(AppWindow)
-        self.__main_window.show()
+        GlobalInjector.bind(AppWindow, to=AppWindow, scope=singleton)
+        GlobalInjector.bind(DebugWindow, to=DebugWindow, scope=singleton)
+
+        self.__app_window: AppWindow = GlobalInjector.get(AppWindow)
+        self.__app_window.show()
+
+        self.__debug_window: DebugWindow = GlobalInjector.get(DebugWindow)
 
         self.__prep_thread: PrepareThread = PrepareThread(
             self.__config,
@@ -53,10 +59,10 @@ class App(QObject):
         return self.__qapp.exec_()
 
     def __on_prepare_thread_progress(self, msg: str):
-        self.__main_window.show_status_message(msg)
+        self.__app_window.show_status_message(msg)
 
     def __on_prepare_thread_success(self):
-        self.__main_window.enable_web_view()
+        self.__app_window.enable_web_view()
         self.__check_playername(self.__config.default_playername)
         self.__listener_thread.start()
 
@@ -71,11 +77,11 @@ class App(QObject):
                 mouse_y,
                 self.__config.data_dir if self.__config.debug else None
             )
-            self.__main_window.show_status_message('try to detect playername')
+            self.__app_window.show_status_message('try to detect playername')
             self.__detect_thread.start()
 
     def __on_detect_thread_success(self, player_name: str):
-        self.__main_window.show_status_message(f'detected playername: {player_name}')
+        self.__app_window.show_status_message(f'detected playername: {player_name}')
         self.__check_playername(player_name)
 
     @pyqtSlot(Exception)
@@ -83,18 +89,18 @@ class App(QObject):
         try:
             raise exception
         except NoPlayernameFoundException as ex:
-            self.__main_window.show_status_message(ex.message)
+            self.__app_window.show_status_message(ex.message)
             self.__logger.warning(ex.args[0])
         except Exception as ex:
             self.__logger.exception(ex)
-            self.__main_window.show_exception(exception)
+            self.__app_window.show_exception(exception)
             self.__qapp.exit(1)
         self.__detect_thread = None
 
     def __check_playername(self, player_name: str):
-        self.__main_window.show_status_message(f'request hacker lookup for: {player_name}')
+        self.__app_window.show_status_message(f'request hacker lookup for: {player_name}')
         query_params: Dict[str, Any] = {'name': player_name}
-        self.__main_window.call_url(self.__config.url, query_params)
+        self.__app_window.call_url(self.__config.url, query_params)
         if self.__detect_thread is not None:
             sleep(1)
             self.__detect_thread = None
