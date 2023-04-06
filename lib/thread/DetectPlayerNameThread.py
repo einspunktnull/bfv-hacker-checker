@@ -1,6 +1,5 @@
 import os
 import re
-from datetime import datetime
 from pathlib import Path
 from typing import Callable, Final, Optional
 from xml.dom import minidom
@@ -26,8 +25,8 @@ class DetectPlayerNameThread(QThread):
 
     def __init__(
             self,
-            succes_thread_fct: Callable,
-            exception_thread_fct: Callable,
+            succes_fct: Callable,
+            exception_fct: Callable,
             poi_width: int,
             poi_height: int,
             mouse_x: int,
@@ -35,8 +34,8 @@ class DetectPlayerNameThread(QThread):
             data_dir: str = None
     ):
         super().__init__()
-        self.__SUCCESS_SIGNAL.connect(succes_thread_fct)
-        self.__EXCEPTION_SIGNAL.connect(exception_thread_fct)
+        self.__SUCCESS_SIGNAL.connect(succes_fct)
+        self.__EXCEPTION_SIGNAL.connect(exception_fct)
         self.__data_dir: str = data_dir
         self.__mouse_x: int = mouse_x
         self.__mouse_y: int = mouse_y

@@ -9,12 +9,12 @@ from lib.common import PyQtSignal
 
 
 class UserInputListenerThread(QThread):
-    __signal: PyQtSignal = pyqtSignal(int, int)
+    __EVENT_SIGNAL: PyQtSignal = pyqtSignal(int, int)
 
-    def __init__(self, key: str, thread_fct: Callable):
+    def __init__(self, key: str, event_fct: Callable):
         super().__init__()
         self.__key: str = key
-        self.__signal.connect(thread_fct)
+        self.__EVENT_SIGNAL.connect(event_fct)
         self.__keyboard_listener: keyboard.Listener = keyboard.Listener(
             on_press=self.__on_key_press,
             on_release=self.__on_key_release
@@ -27,7 +27,7 @@ class UserInputListenerThread(QThread):
     def __on_mouse_click(self, x: int, y: int, button: Button, pressed: bool):
         if pressed and button == mouse.Button.left:
             if self.__is_key_pressed:
-                self.__signal.emit(x, y)
+                self.__EVENT_SIGNAL.emit(x, y)
 
     def __on_key_press(self, key):
         if isinstance(key, Key):
