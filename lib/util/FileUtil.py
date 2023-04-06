@@ -66,7 +66,7 @@ class FileUtil:
                         rel_file_path = os.path.relpath(file_path, dirname if wrap else path)
                         archive.write(file_path, rel_file_path)
             else:
-                print(f"{path} is not a valid file or directory.")
+                raise Exception(f"{path} is not a valid file or directory.")
 
     @staticmethod
     def copy(source, destination):
@@ -94,9 +94,7 @@ class FileUtil:
             new_contents = re.sub(search_string, replace_string, contents)
             with open(filename, 'w') as f:
                 f.write(new_contents)
-            print(f"Replaced '{search_string}' with '{replace_string}' in file '{filename}'.")
-        else:
-            print(f"'{search_string}' not found in file '{filename}'.")
+            raise Exception(f"'{search_string}' not found in file '{filename}'.")
 
     @staticmethod
     def str_to_file(path: str, content: str):

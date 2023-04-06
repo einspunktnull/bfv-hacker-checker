@@ -45,7 +45,6 @@ class DetectPlayerNameThread(QThread):
         self.__logger: Logger = GlobalInjector.get(Logger)
 
     def run(self):
-        print(pytesseract.tesseract_cmd)
         screenshot_path: Optional[str] = None
         if self.__data_dir:
             basename: str = f'window_screenshot_{StringUtil.get_now_string()}.png'
