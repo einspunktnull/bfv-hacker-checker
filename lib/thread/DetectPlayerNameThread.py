@@ -8,7 +8,6 @@ from xml.dom.minidom import Document, Element
 
 from PyQt5.QtCore import QThread, pyqtSignal
 from numpy import ndarray
-from pytesseract import pytesseract
 
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
@@ -24,9 +23,12 @@ class DetectPlayerNameThread(QThread):
     __SUCCESS_SIGNAL: Final[PyQtSignal] = pyqtSignal(str)
     __EXCEPTION_SIGNAL: Final[PyQtSignal] = pyqtSignal(Exception)
 
+    __REPORT_SIGNAL: Final[PyQtSignal] = pyqtSignal(ndarray)
+
     def __init__(
             self,
             succes_fct: Callable,
+            report_fct: Callable,
             exception_fct: Callable,
             poi_width: int,
             poi_height: int,
@@ -36,6 +38,7 @@ class DetectPlayerNameThread(QThread):
     ):
         super().__init__()
         self.__SUCCESS_SIGNAL.connect(succes_fct)
+        self.__REPORT_SIGNAL.connect(report_fct)
         self.__EXCEPTION_SIGNAL.connect(exception_fct)
         self.__data_dir: str = data_dir
         self.__mouse_x: int = mouse_x
@@ -54,8 +57,7 @@ class DetectPlayerNameThread(QThread):
             try:
                 WindowUtil.to_foreground_by_title('Battlefield™ V')
             except InvalidWindowHandleException as exception:
-                pass
-                # self.__logger.debug(exception)
+                self.__logger.debug(exception)
             mouse_bbox: BoundingBox = self.__calculate_bbox()
             screenshot_data: ndarray = ImageUtil.screenshot_region(
                 mouse_bbox,
@@ -110,6 +112,7 @@ class DetectPlayerNameThread(QThread):
             screenshot_data_mod,
             os.path.join(self.__data_dir, f'{image_name_stem}.05_blurred.png') if screenshot_path else None
         )
+        self.__REPORT_SIGNAL.emit(screenshot_data_mod)
         return screenshot_data_mod
 
     def __is_mouse_in_string(self, string_node: Element) -> bool:

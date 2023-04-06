@@ -58,7 +58,7 @@ class Ui_AppWindow(object):
     def retranslateUi(self, AppWindow):
         _translate = QtCore.QCoreApplication.translate
         AppWindow.setWindowTitle(_translate("AppWindow", "MainWindow"))
-        self.label_init.setText(_translate("AppWindow", "Initialising, can take few seconds when running first time"))
+        self.label_init.setText(_translate("AppWindow", "Initializing, can take few seconds when running first time"))
         self.menuHelp.setTitle(_translate("AppWindow", "Help"))
         self.actionAbout.setText(_translate("AppWindow", "About"))
         self.actionShow_Debugging_Window.setText(_translate("AppWindow", "Show Debugging Window"))

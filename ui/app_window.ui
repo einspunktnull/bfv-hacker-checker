@@ -33,7 +33,7 @@
          <enum>Qt::LeftToRight</enum>
         </property>
         <property name="text">
-         <string>Initialising, can take few seconds when running first time</string>
+         <string>Initializing, can take few seconds when running first time</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

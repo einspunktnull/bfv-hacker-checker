@@ -30,13 +30,17 @@ class Ui_DebugWindow(object):
         self.splitter.setChildrenCollapsible(False)
         self.splitter.setObjectName("splitter")
         self.widget = QtWidgets.QWidget(self.splitter)
-        self.widget.setMinimumSize(QtCore.QSize(0, 200))
+        self.widget.setMinimumSize(QtCore.QSize(0, 150))
         self.widget.setObjectName("widget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.widget)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        self.label_image_processed = QtWidgets.QLabel(self.widget)
+        self.label_image_processed.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_image_processed.setObjectName("label_image_processed")
+        self.verticalLayout.addWidget(self.label_image_processed)
         self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.plainTextEdit = QtWidgets.QPlainTextEdit(self.splitter)
         self.plainTextEdit.setMinimumSize(QtCore.QSize(0, 300))
@@ -61,6 +65,7 @@ class Ui_DebugWindow(object):
     def retranslateUi(self, DebugWindow):
         _translate = QtCore.QCoreApplication.translate
         DebugWindow.setWindowTitle(_translate("DebugWindow", "MainWindow"))
+        self.label_image_processed.setText(_translate("DebugWindow", "Prev Image"))
         self.plainTextEdit.setPlainText(_translate("DebugWindow", "https://stackoverflow.com/questions/28309376/how-to-manage-qsplitter-in-qt-designer\n"
 "\n"
 "\n"

@@ -6,6 +6,7 @@ import qdarktheme
 from PyQt5.QtCore import pyqtSlot, QObject
 from PyQt5.QtWidgets import QApplication
 from injector import singleton
+from numpy import ndarray
 
 from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
@@ -70,6 +71,7 @@ class App(QObject):
         if self.__detect_thread is None:
             self.__detect_thread = DetectPlayerNameThread(
                 self.__on_detect_thread_success,
+                self.__on_detect_thread_report,
                 self.__on_thread_exception,
                 self.__config.poi_width,
                 self.__config.poi_height,
@@ -83,6 +85,9 @@ class App(QObject):
     def __on_detect_thread_success(self, player_name: str):
         self.__app_window.show_status_message(f'detected playername: {player_name}')
         self.__check_playername(player_name)
+
+    def __on_detect_thread_report(self, image: ndarray):
+        self.__debug_window.set_detection_report(image)
 
     @pyqtSlot(Exception)
     def __on_thread_exception(self, exception: Exception) -> Any:

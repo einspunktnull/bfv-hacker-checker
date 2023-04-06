@@ -10,7 +10,7 @@ class ImageUtil:
 
     @staticmethod
     def screenshot_region(region: BoundingBox, file_path: str = None) -> ndarray:
-        image: Image = ImageGrab.grab(bbox=region)
+        image: Image = ImageGrab.grab(bbox=region, include_layered_windows=True, all_screens=True)
         if file_path:
             image.save(file_path)
         return np.array(image)
