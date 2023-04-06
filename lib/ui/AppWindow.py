@@ -34,6 +34,7 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
     def _init_ui(self):
         self._ui.label_init.setFont(get_monospace_font())
         if self._config.debug:
+            self.__debug_window.CLOSED.connect(self.__on_child_window_closed)
             self._ui.actionShow_Debugging_Window.triggered.connect(self.__toggle_debug_window)
             self.__show_debug_window()
         else:
@@ -73,6 +74,10 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
         self._logger.debug('AppWindow.__on_about_click')
         dlg: AboutDialog = GlobalInjector.get(AboutDialog)
         dlg.exec_()
+
+    def __on_child_window_closed(self):
+        if self._config.debug:
+            self._ui.actionShow_Debugging_Window.setChecked(False)
 
     def __toggle_debug_window(self):
         if self.__debug_window.isVisible():

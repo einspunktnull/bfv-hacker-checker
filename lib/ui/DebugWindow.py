@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 import logging
-from typing import Type
+from typing import Type, Final
 
 from PyQt5 import QtGui
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtGui import QCloseEvent
 from injector import inject
 
 from lib.Config import Config
 from lib.Logger import Logger
-from lib.common import get_monospace_font
+from lib.common import get_monospace_font, PyQtSignal
 from lib.ui.AbstractBaseWindow import AbstractBaseWindow
 from lib.ui_generated.Ui_DebugWindow import Ui_DebugWindow
 
@@ -25,6 +27,8 @@ class ConsoleHandler(logging.Handler):
 
 
 class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
+    CLOSED: Final[PyQtSignal] = pyqtSignal()
+
     @inject
     def __init__(self, config: Config, logger: Logger):
         super().__init__(config, logger)
@@ -44,6 +48,10 @@ class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
 
     def _get_ui(self) -> Type[Ui_DebugWindow]:
         return Ui_DebugWindow
+
+    def closeEvent(self, event: QCloseEvent):
+        super().closeEvent(event)
+        self.CLOSED.emit()
 
     def add_log_text(self, message: str):
         self._ui.plainTextEdit.appendPlainText(message)
