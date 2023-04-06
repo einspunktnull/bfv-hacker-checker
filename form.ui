@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1260</width>
+    <width>1490</width>
     <height>841</height>
    </rect>
   </property>
@@ -20,6 +20,27 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
+      <item>
+       <widget class="QLabel" name="label_init">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Initialising, can take few seconds when running first time</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -29,7 +50,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1260</width>
+     <width>1490</width>
      <height>21</height>
     </rect>
    </property>
@@ -38,6 +59,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
+    <addaction name="actionShow_Debugging_Window"/>
    </widget>
    <addaction name="menuHelp"/>
   </widget>
@@ -45,6 +67,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionShow_Debugging_Window">
+   <property name="text">
+    <string>Show Debugging Window</string>
    </property>
   </action>
  </widget>

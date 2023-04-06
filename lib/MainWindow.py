@@ -37,10 +37,8 @@ class MainWindow(QMainWindow):
         self.__ui.setupUi(self)
         self.setWindowTitle(f'{self.__config.app_name} {self.__config.version}')
         self.setWindowIcon(QIcon(self.__config.icon_path))
-        self.setMinimumWidth(600)
-        self.setMinimumHeight(500)
-        # self.__web_View.show()
-        # self.__ui.verticalLayout.addWidget(self.__web_View)
+        self.setMinimumWidth(500)
+        self.setMinimumHeight(600)
         self.__restore()
         if self.__config.always_on_top:
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
@@ -62,6 +60,11 @@ class MainWindow(QMainWindow):
             query.addQueryItem(key, value)
         url_.setQuery(query)
         self.__web_View.load(url_)
+
+    def enable_web_view(self):
+        self.__web_View.show()
+        self.__ui.verticalLayout.removeWidget(self.__ui.label_init)
+        self.__ui.verticalLayout.addWidget(self.__web_View)
 
     def show_message(self, msg: str):
         print("MainWindow.show_message()", msg)
