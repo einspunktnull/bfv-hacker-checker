@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
             prod_type = QSysInfo.productType()
             if prod_type == "arch" or prod_type == "manjaro":
                 os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--no-sandbox"
-                print("Info: QtWebEngine sandbox disabled")
+                self.__logger.info("QtWebEngine sandbox disabled")
         self.__web_View: QWebEngineView = QWebEngineView()
         self.__init_ui()
 
@@ -44,10 +44,6 @@ class MainWindow(QMainWindow):
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.__ui.actionAbout.triggered.connect(self.__on_about_click)
 
-    def enable_web_view(self) -> None:
-        self.__web_View.show()
-        self.__ui.verticalLayout.addWidget(self.__web_View)
-
     def closeEvent(self, event):
         self.__save()
 
@@ -61,13 +57,13 @@ class MainWindow(QMainWindow):
         url_.setQuery(query)
         self.__web_View.load(url_)
 
-    def enable_web_view(self):
+    def enable_web_view(self) -> None:
         self.__web_View.show()
         self.__ui.verticalLayout.removeWidget(self.__ui.label_init)
         self.__ui.verticalLayout.addWidget(self.__web_View)
 
-    def show_message(self, msg: str):
-        print("MainWindow.show_message()", msg)
+    def show_status_message(self, msg: str):
+        self.statusBar().showMessage(msg)
 
     def show_exception(self, exception: Exception):
         print("MainWindow.show_exception()", str(exception))

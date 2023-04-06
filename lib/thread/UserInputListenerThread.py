@@ -21,8 +21,10 @@ class UserInputListenerThread(QThread):
         )
         self.__keyboard_listener.start()
         self.__mouse_listener: mouse.Listener = mouse.Listener(on_click=self.__on_mouse_click)
-        self.__mouse_listener.start()
         self.__is_key_pressed: bool = False
+
+    def run(self) -> None:
+        self.__mouse_listener.start()
 
     def __on_mouse_click(self, x: int, y: int, button: Button, pressed: bool):
         if pressed and button == mouse.Button.left:

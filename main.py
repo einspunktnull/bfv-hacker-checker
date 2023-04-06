@@ -9,12 +9,12 @@ from lib.Logger import Logger
 
 if __name__ == '__main__':
 
-    GlobalInjector.bind(Config, to=Config, scope=singleton)
-    GlobalInjector.bind(Logger, to=Logger, scope=singleton)
-    logger: Logger = GlobalInjector.get(Logger)
-    logger.info('Startup App')
-    app: App = GlobalInjector.get(App)
     try:
+        GlobalInjector.bind(Config, to=Config, scope=singleton)
+        GlobalInjector.bind(Logger, to=Logger, scope=singleton)
+        logger: Logger = GlobalInjector.get(Logger)
+        logger.info('Startup App')
+        app: App = GlobalInjector.get(App)
         exit_code: int = app.run()
         sys.exit(exit_code)
     except Exception as ex:

@@ -3,7 +3,9 @@ from argparse import ArgumentParser, Namespace
 from configparser import ConfigParser
 from typing import Final
 
+from lib.Hotkey import Hotkey
 from lib.Loglevel import Loglevel
+from lib.common import ConfigException
 from lib.version import VERSION
 
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
@@ -23,6 +25,7 @@ _UI_FILE_PATH: Final[str] = os.path.join(_UI_DIR, 'form.ui')
 class Config:
 
     def __init__(self):
+        self.__initialized: bool = False
         argument_parser: ArgumentParser = ArgumentParser(
             description="Choose players of current match for a cheater check via bfvhackers.com"
         )
@@ -45,6 +48,10 @@ class Config:
         self.__args: Namespace = argument_parser.parse_args()
         self.__config_parser: ConfigParser = ConfigParser()
         self.__config_parser.read(self.__args.config)
+        hotkey: str = self.__config_parser.get('user', 'hotkey')
+        is_allowed_key: bool = hotkey in Hotkey.__members__
+        if not is_allowed_key:
+            raise ConfigException('invalid hotkey defined in config.ini')
 
     @property
     def app_name(self) -> str:

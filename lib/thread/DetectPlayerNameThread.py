@@ -8,6 +8,7 @@ from xml.dom.minidom import Document, Element
 
 from PyQt5.QtCore import QThread, pyqtSignal
 from numpy import ndarray
+from pytesseract import pytesseract
 
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
@@ -44,6 +45,7 @@ class DetectPlayerNameThread(QThread):
         self.__logger: Logger = GlobalInjector.get(Logger)
 
     def run(self):
+        print(pytesseract.tesseract_cmd)
         screenshot_path: Optional[str] = None
         if self.__data_dir:
             basename: str = f'window_screenshot_{StringUtil.get_now_string()}.png'
