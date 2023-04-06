@@ -39,13 +39,16 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(self.__config.icon_path))
         self.setMinimumWidth(600)
         self.setMinimumHeight(500)
-        # self.__web_View.resize(400, 500)
-        self.__web_View.show()
-        self.__ui.verticalLayout.addWidget(self.__web_View)
+        # self.__web_View.show()
+        # self.__ui.verticalLayout.addWidget(self.__web_View)
         self.__restore()
         if self.__config.always_on_top:
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.__ui.actionAbout.triggered.connect(self.__on_about_click)
+
+    def enable_web_view(self) -> None:
+        self.__web_View.show()
+        self.__ui.verticalLayout.addWidget(self.__web_View)
 
     def closeEvent(self, event):
         self.__save()
@@ -72,7 +75,6 @@ class MainWindow(QMainWindow):
         dlg.exec_()
 
     def __restore(self):
-
         geometry = self.__settings.value("MainWindow/Geometry")
         if geometry:
             self.restoreGeometry(geometry)
