@@ -2,6 +2,7 @@ import sys
 from typing import Union, Tuple
 
 from PyQt5.QtCore import pyqtSignal, pyqtBoundSignal
+from PyQt5.QtGui import QFont, QFontDatabase
 
 OS_PLATFORM: str = sys.platform
 OS_PLATFORM_LINUX: str = "linux"
@@ -9,6 +10,10 @@ OS_PLATFORM_WINDOWS: str = "win32"
 
 PyQtSignal = Union[pyqtSignal, pyqtBoundSignal]
 BoundingBox = Tuple[int, int, int, int]
+
+
+def get_monospace_font() -> QFont:
+    return QFontDatabase.systemFont(QFontDatabase.FixedFont)
 
 
 class AppException(Exception):

@@ -6,20 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>831</width>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QWidget" name="widget" native="true">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPlainTextEdit" name="plainTextEdit">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="plainText">
+        <string>https://stackoverflow.com/questions/28309376/how-to-manage-qsplitter-in-qt-designer
+
+
+You can simply create splitter containing items in Qt Designer :
+
+First place your widgets on your dialog or widget in designer (They should not be in a layout)
+
+Select the widgets that you want to be in a splitter (By holding CTL and clicking on them)
+
+Right click on a selected widget and from Layout menu select Lay Out Horizontally in Splitter or Lay Out Vertically in Splitter.
+
+Now apply a grid layout to the dialog and everything should be OK. 
+
+---------------------------------------------
+
+https://stackoverflow.com/questions/1468022/how-to-specify-monospace-fonts-for-cross-platform-qt-applications
+
+const QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont)
+</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>831</width>
      <height>21</height>
     </rect>
    </property>

@@ -10,7 +10,7 @@ from injector import inject
 from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
-from lib.common import OS_PLATFORM_LINUX
+from lib.common import OS_PLATFORM_LINUX, get_monospace_font
 from lib.ui.AboutDialog import AboutDialog
 from lib.ui.AbstractBaseWindow import AbstractBaseWindow, Ui_Class
 from lib.ui.DebugWindow import DebugWindow
@@ -31,17 +31,18 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
         self.__debug_window: DebugWindow = GlobalInjector.get(DebugWindow)
         super().__init__(config, logger)
 
-    def closeEvent(self, event: QCloseEvent):
-        self.__close_debug_window()
-        super().closeEvent(event)
-
     def _init_ui(self):
+        self._ui.label_init.setFont(get_monospace_font())
         if self._config.debug:
             self._ui.actionShow_Debugging_Window.triggered.connect(self.__toggle_debug_window)
             self.__show_debug_window()
         else:
             self._ui.menuHelp.removeAction(self._ui.actionShow_Debugging_Window)
         self._ui.actionAbout.triggered.connect(self.__on_about_click)
+
+    def closeEvent(self, event: QCloseEvent):
+        self.__close_debug_window()
+        super().closeEvent(event)
 
     def _get_ui(self) -> Type[Ui_AppWindow]:
         return Ui_AppWindow

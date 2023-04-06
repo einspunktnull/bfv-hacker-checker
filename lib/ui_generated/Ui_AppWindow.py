@@ -24,7 +24,6 @@ class Ui_AppWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_init = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Consolas")
         font.setPointSize(14)
         font.setBold(False)
         font.setWeight(50)

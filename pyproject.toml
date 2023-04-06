@@ -32,9 +32,9 @@ build-backend = "poetry.core.masonry.api"
 app = "python main.py"
 build = "python build.py"
 set-version = "python set_version.py"
-gen-ui = ["_gen-ui-app-window", "_gen-ui-debug-window"]
-_gen-ui-app-window = "pyuic5 ui/app_window.ui -o lib/ui_generated/Ui_AppWindow.py"
-_gen-ui-debug-window = "pyuic5 ui/debug_window.ui -o lib/ui_generated/Ui_DebugWindow.py"
+gen-ui = ["gen-ui-app-window", "gen-ui-debug-window"]
+gen-ui-app-window = "pyuic5 ui/app_window.ui -o lib/ui_generated/Ui_AppWindow.py"
+gen-ui-debug-window = "pyuic5 ui/debug_window.ui -o lib/ui_generated/Ui_DebugWindow.py"
 
 
 

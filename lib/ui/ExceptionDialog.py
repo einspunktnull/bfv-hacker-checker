@@ -1,8 +1,9 @@
 import traceback
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFontDatabase
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QTextEdit
+
+from lib.common import get_monospace_font
 
 
 class ExceptionDialog(QDialog):
@@ -16,16 +17,14 @@ class ExceptionDialog(QDialog):
 
         layout = QVBoxLayout()
 
-        font = QFontDatabase.systemFont(QFontDatabase.FixedFont)
-
         # Create a label to display the error message
         error_label = QLabel(str(exception))
-        error_label.setFont(font)
+        error_label.setFont(get_monospace_font())
         layout.addWidget(error_label)
 
         # Create a text edit to display the traceback
         traceback_edit = QTextEdit()
-        traceback_edit.setFont(font)
+        traceback_edit.setFont(get_monospace_font())
         traceback_edit.setPlainText(traceback.format_exc())
         traceback_edit.setReadOnly(True)
         layout.addWidget(traceback_edit)
