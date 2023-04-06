@@ -9,11 +9,11 @@ from PyQt5.QtWidgets import QApplication
 from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
-from lib.MainWindow import MainWindow
 from lib.common import NoPlayernameFoundException
 from lib.thread.DetectPlayerNameThread import DetectPlayerNameThread
 from lib.thread.PrepareThread import PrepareThread
 from lib.thread.UserInputListenerThread import UserInputListenerThread
+from lib.ui.AppWindow import AppWindow
 
 
 class App(QObject):
@@ -31,8 +31,8 @@ class App(QObject):
         if self.__config.theme != 'none':
             qdarktheme.setup_theme(self.__config.theme)
 
-        GlobalInjector.bind(MainWindow, to=MainWindow)
-        self.__main_window: MainWindow = GlobalInjector.get(MainWindow)
+        GlobalInjector.bind(AppWindow, to=AppWindow)
+        self.__main_window: AppWindow = GlobalInjector.get(AppWindow)
         self.__main_window.show()
 
         self.__prep_thread: PrepareThread = PrepareThread(
@@ -80,7 +80,6 @@ class App(QObject):
 
     @pyqtSlot(Exception)
     def __on_thread_exception(self, exception: Exception) -> Any:
-        self.__main_window.show_exception(exception)
         try:
             raise exception
         except NoPlayernameFoundException as ex:
@@ -88,6 +87,7 @@ class App(QObject):
             self.__logger.warning(ex.args[0])
         except Exception as ex:
             self.__logger.exception(ex)
+            self.__main_window.show_exception(exception)
             self.__qapp.exit(1)
         self.__detect_thread = None
 

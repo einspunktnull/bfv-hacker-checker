@@ -8,15 +8,16 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QMainWindow
 from injector import inject
 
-from lib.AboutDialog import AboutDialog
 from lib.Config import Config
 from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
-from lib.Ui_MainWindow import Ui_MainWindow
 from lib.common import OS_PLATFORM_LINUX
+from lib.ui.AboutDialog import AboutDialog
+from lib.ui.ExceptionDialog import ExceptionDialog
+from lib.ui_generated.UI_AppWindow import Ui_AppWindow
 
 
-class MainWindow(QMainWindow):
+class AppWindow(QMainWindow):
     @inject
     def __init__(self, config: Config, logger: Logger):
         super().__init__()
@@ -24,7 +25,7 @@ class MainWindow(QMainWindow):
         self.__logger: Logger = logger
         self.__settings: QSettings = QSettings("main_window_settings", self.__config.app_name)
         GlobalInjector.bind(AboutDialog, to=AboutDialog)
-        self.__ui: Ui_MainWindow = Ui_MainWindow()
+        self.__ui: Ui_AppWindow = Ui_AppWindow()
         if sys.platform == OS_PLATFORM_LINUX:
             prod_type = QSysInfo.productType()
             if prod_type == "arch" or prod_type == "manjaro":
@@ -66,7 +67,9 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage(msg)
 
     def show_exception(self, exception: Exception):
-        print("MainWindow.show_exception()", str(exception))
+        # print("MainWindow.show_exception()", str(exception))
+        exception_window = ExceptionDialog(exception)
+        exception_window.exec_()
 
     def __on_about_click(self):
         self.__logger.debug('MainWindow.__on_about_click')

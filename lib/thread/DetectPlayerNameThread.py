@@ -67,7 +67,6 @@ class DetectPlayerNameThread(QThread):
             alto_doc: Document = minidom.parseString(alto_xml_str)
             root_element: Element = alto_doc.documentElement
             string_nodes: NodeList = root_element.getElementsByTagName('String')
-
             try:
                 string_node: Element = list(filter(self.__is_mouse_in_string, string_nodes))[0]
                 player_name_raw: str = string_node.getAttribute('CONTENT')

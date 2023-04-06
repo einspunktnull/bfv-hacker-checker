@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'form.ui'
+# Form implementation generated from reading ui_generated file 'ui_generated/app_window.ui_generated'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -11,11 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1490, 841)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class Ui_AppWindow(object):
+    def setupUi(self, AppWindow):
+        AppWindow.setObjectName("AppWindow")
+        AppWindow.resize(1490, 841)
+        self.centralwidget = QtWidgets.QWidget(AppWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -34,31 +34,31 @@ class Ui_MainWindow(object):
         self.label_init.setObjectName("label_init")
         self.verticalLayout.addWidget(self.label_init)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        AppWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(AppWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1490, 21))
         self.menubar.setObjectName("menubar")
         self.menuHelp = QtWidgets.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        AppWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(AppWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionAbout = QtWidgets.QAction(MainWindow)
+        AppWindow.setStatusBar(self.statusbar)
+        self.actionAbout = QtWidgets.QAction(AppWindow)
         self.actionAbout.setObjectName("actionAbout")
-        self.actionShow_Debugging_Window = QtWidgets.QAction(MainWindow)
+        self.actionShow_Debugging_Window = QtWidgets.QAction(AppWindow)
         self.actionShow_Debugging_Window.setObjectName("actionShow_Debugging_Window")
         self.menuHelp.addAction(self.actionAbout)
         self.menuHelp.addAction(self.actionShow_Debugging_Window)
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(AppWindow)
+        QtCore.QMetaObject.connectSlotsByName(AppWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, AppWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_init.setText(_translate("MainWindow", "Initialising, can take few seconds when running first time"))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
-        self.actionAbout.setText(_translate("MainWindow", "About"))
-        self.actionShow_Debugging_Window.setText(_translate("MainWindow", "Show Debugging Window"))
+        AppWindow.setWindowTitle(_translate("AppWindow", "MainWindow"))
+        self.label_init.setText(_translate("AppWindow", "Initialising, can take few seconds when running first time"))
+        self.menuHelp.setTitle(_translate("AppWindow", "Help"))
+        self.actionAbout.setText(_translate("AppWindow", "About"))
+        self.actionShow_Debugging_Window.setText(_translate("AppWindow", "Show Debugging Window"))

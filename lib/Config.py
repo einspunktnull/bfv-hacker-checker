@@ -18,8 +18,6 @@ _TESS_ZIP_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR.zip')
 _TESS_DIR_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR')
 _TESS_EXE_PATH: Final[str] = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
 _LOGGER_NAME: Final[str] = 'THA_LOGGA'
-_UI_DIR: Final[str] = os.path.join(_ROOT_DIR, 'ui')
-_UI_FILE_PATH: Final[str] = os.path.join(_UI_DIR, 'form.ui')
 
 
 class Config:
@@ -68,10 +66,6 @@ class Config:
     @property
     def bin_dir(self) -> str:
         return _BIN_DIR
-
-    @property
-    def ui_file(self) -> str:
-        return _UI_FILE_PATH
 
     @property
     def tesseract_exe(self) -> str:
