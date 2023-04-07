@@ -12,26 +12,27 @@ from lib.GlobalInjector import GlobalInjector
 from lib.Logger import Logger
 from lib.common import OS_PLATFORM_LINUX, get_monospace_font
 from lib.ui.AboutDialog import AboutDialog
-from lib.ui.AbstractBaseWindow import AbstractBaseWindow, Ui_Class
+from lib.ui.AbstractBaseWindow import AbstractBaseWindow
 from lib.ui.DebugWindow import DebugWindow
 from lib.ui.ExceptionDialog import ExceptionDialog
 from lib.ui_generated.Ui_AppWindow import Ui_AppWindow
 
 
 class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
+
     @inject
     def __init__(self, config: Config, logger: Logger):
         GlobalInjector.bind(AboutDialog, to=AboutDialog)
-        if sys.platform == OS_PLATFORM_LINUX:
-            prod_type = QSysInfo.productType()
-            if prod_type == "arch" or prod_type == "manjaro":
-                os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--no-sandbox"
-                self.__logger.info("QtWebEngine sandbox disabled")
         self.__web_View: QWebEngineView = QWebEngineView()
         self.__debug_window: DebugWindow = GlobalInjector.get(DebugWindow)
         super().__init__(config, logger)
 
     def _init_ui(self):
+        if sys.platform == OS_PLATFORM_LINUX:
+            prod_type = QSysInfo.productType()
+            if prod_type == "arch" or prod_type == "manjaro":
+                os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--no-sandbox"
+                self._logger.info("QtWebEngine sandbox disabled")
         self._ui.label_init.setFont(get_monospace_font())
         if self._config.debug:
             self.__debug_window.CLOSED.connect(self.__on_child_window_closed)

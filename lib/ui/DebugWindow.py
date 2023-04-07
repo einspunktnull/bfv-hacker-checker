@@ -29,6 +29,7 @@ class ConsoleHandler(logging.Handler):
 
 class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
     CLOSED: Final[PyQtSignal] = pyqtSignal()
+    LOG_TEXT: Final[PyQtSignal] = pyqtSignal(str)
 
     @inject
     def __init__(self, config: Config, logger: Logger):
@@ -46,6 +47,7 @@ class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
             background-color: red;
         }
         """
+        self.LOG_TEXT.connect(self.__add_log_text)
         self._ui.splitter.setStyleSheet(stylesheet)
 
     def _get_ui(self) -> Type[Ui_DebugWindow]:
@@ -56,12 +58,15 @@ class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
         self.CLOSED.emit()
 
     def add_log_text(self, message: str):
-        self._ui.plainTextEdit.appendPlainText(message)
-        self._ui.plainTextEdit.moveCursor(QtGui.QTextCursor.End)
-        self._ui.plainTextEdit.ensureCursorVisible()
+        self.LOG_TEXT.emit(message)
 
     def set_detection_report(self, image: ndarray):
         # self._logger.debug('set_detection_report', str(image))
         pixmap: QPixmap = QPixmap.fromImage(
             QImage(image.data, image.shape[1], image.shape[0], QImage.Format_Grayscale8))
         self._ui.label_image_processed.setPixmap(pixmap)
+
+    def __add_log_text(self, message: str):
+        self._ui.plainTextEdit.appendPlainText(message)
+        self._ui.plainTextEdit.moveCursor(QtGui.QTextCursor.End)
+        self._ui.plainTextEdit.ensureCursorVisible()
