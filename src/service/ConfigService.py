@@ -3,10 +3,12 @@ from argparse import ArgumentParser, Namespace
 from configparser import ConfigParser
 from typing import Final
 
-from lib.Hotkey import Hotkey
-from lib.Loglevel import Loglevel
-from lib.common import ConfigException
-from lib.version import VERSION
+from PyQt5.QtCore import QObject
+
+from base.Hotkey import Hotkey
+from base.Loglevel import Loglevel
+from base.common import ConfigException
+from version import VERSION
 
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
 _ICON_PATH: Final[str] = "res/icon.png"
@@ -20,10 +22,10 @@ _TESS_EXE_PATH: Final[str] = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
 _LOGGER_NAME: Final[str] = 'THA_LOGGA'
 
 
-class Config:
+class ConfigService(QObject):
 
     def __init__(self):
-        self.__initialized: bool = False
+        super().__init__()
         argument_parser: ArgumentParser = ArgumentParser(
             description="Choose players of current match for a cheater check via bfvhackers.com"
         )
@@ -37,11 +39,6 @@ class Config:
             '-c',
             type=str,
             default='config.ini'
-        )
-        argument_parser.add_argument(
-            '--clear-data-dir',
-            '-C',
-            action='store_true'
         )
         self.__args: Namespace = argument_parser.parse_args()
         self.__config_parser: ConfigParser = ConfigParser()
@@ -58,10 +55,6 @@ class Config:
     @property
     def icon_path(self) -> str:
         return _ICON_PATH
-
-    @property
-    def data_dir(self) -> str:
-        return _DATA_DIR
 
     @property
     def bin_dir(self) -> str:
@@ -86,10 +79,6 @@ class Config:
     @property
     def version(self) -> str:
         return VERSION
-
-    @property
-    def clear_data_dir(self) -> bool:
-        return self.__args.clear_data_dir or self.__config_parser.getboolean('app', 'clear_data_dir', fallback=True)
 
     @property
     def debug(self) -> bool:

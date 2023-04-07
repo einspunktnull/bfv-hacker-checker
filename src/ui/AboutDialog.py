@@ -3,13 +3,13 @@ from PyQt5.QtGui import QPixmap, QDesktopServices, QIcon
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QLabel
 from injector import inject
 
-from lib.Config import Config
+from service.ConfigService import ConfigService
 
 
 class AboutDialog(QDialog):
 
     @inject
-    def __init__(self, config: Config, *args, **kwargs):
+    def __init__(self, config: ConfigService, *args, **kwargs):
         super(AboutDialog, self).__init__(*args, **kwargs)
 
         self.setWindowTitle(f'About {config.app_name}')

@@ -5,8 +5,8 @@ from PyQt5.QtCore import QSettings, Qt
 from PyQt5.QtGui import QIcon, QCloseEvent
 from PyQt5.QtWidgets import QMainWindow
 
-from lib.Config import Config
-from lib.Logger import Logger
+from service.ConfigService import ConfigService
+from service.LoggingService import LoggingService
 
 
 class QMainWindowABCMeta(ABCMeta, type(QMainWindow)):
@@ -18,17 +18,17 @@ Ui_Class = TypeVar('Ui_Class')
 
 class AbstractBaseWindow(Generic[Ui_Class], QMainWindow, ABC, metaclass=QMainWindowABCMeta):
 
-    def __init__(self, config: Config, logger: Logger):
+    def __init__(self, config: ConfigService, logger: LoggingService):
         QMainWindow.__init__(self)
-        self.__config: Config = config
-        self.__logger: Logger = logger
+        self.__config: ConfigService = config
+        self.__logger: LoggingService = logger
         self.__class_name: str = self.__class__.__name__
         self.__settings: QSettings = QSettings("the_window_settings", self.__config.app_name)
         self.__ui: Ui_Class = self._get_ui()()  # create inst of ui class
         self.__init_ui()
 
     @abstractmethod
-    def _init_ui(self) -> None:
+    def _post_init(self) -> None:
         pass
 
     @abstractmethod
@@ -40,11 +40,11 @@ class AbstractBaseWindow(Generic[Ui_Class], QMainWindow, ABC, metaclass=QMainWin
         return self.__ui
 
     @property
-    def _config(self) -> Config:
+    def _config(self) -> ConfigService:
         return self.__config
 
     @property
-    def _logger(self) -> Logger:
+    def _logger(self) -> LoggingService:
         return self.__logger
 
     def closeEvent(self, event: QCloseEvent):
@@ -59,7 +59,7 @@ class AbstractBaseWindow(Generic[Ui_Class], QMainWindow, ABC, metaclass=QMainWin
         self.__restore()
         if self.__config.always_on_top:
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-        self._init_ui()
+        self._post_init()
 
     def __restore(self):
         geometry = self.__settings.value(f"{self.__class_name}/Geometry")

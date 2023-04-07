@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bfv-hacker-checker"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = ["Albrecht Nitsche <albrechtnitsche@mail.com>"]
 
@@ -29,13 +29,13 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
-app = "python main.py"
-build = "python build.py"
-build-debug = "python build.py debug"
-set-version = "python set_version.py"
+app = "python src/main.py"
+app-linux = "python src/main.py -c config.linux.ini"
+build = "python scripts/build.py"
+set-version = "python scripts/set_version.py"
 gen-ui = ["gen-ui-app-window", "gen-ui-debug-window"]
-gen-ui-app-window = "pyuic5 ui/app_window.ui -o lib/ui_generated/Ui_AppWindow.py"
-gen-ui-debug-window = "pyuic5 ui/debug_window.ui -o lib/ui_generated/Ui_DebugWindow.py"
+gen-ui-app-window = "pyuic5 ui/app_window.ui -o src/ui_generated/Ui_AppWindow.py"
+gen-ui-debug-window = "pyuic5 ui/debug_window.ui -o src/ui_generated/Ui_DebugWindow.py"
 
 
 

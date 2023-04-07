@@ -1,8 +1,15 @@
-import sys
 from typing import List
 
-from lib.common import BoundingBox, InvalidWindowHandleException, UnsupportedOsException, OS_PLATFORM, \
-    OS_PLATFORM_WINDOWS, OS_PLATFORM_LINUX
+import ewmh
+
+from base.common import (
+    BoundingBox,
+    InvalidWindowHandleException,
+    UnsupportedOsException,
+    OS_PLATFORM,
+    OS_PLATFORM_WINDOWS,
+    OS_PLATFORM_LINUX
+)
 
 if OS_PLATFORM == OS_PLATFORM_WINDOWS:
     import win32gui
@@ -39,8 +46,9 @@ class WindowUtil:
                     raise InvalidWindowHandleException(err)
             return window_handle
         elif OS_PLATFORM == OS_PLATFORM_LINUX:
-            ewmh.setActiveWindow(window_handle, ewmh.WM_TAKE_FOCUS)
-            ewmh.display.flush()
+            ew = EWMH()
+            ew.setActiveWindow(window_handle, EWMH.WM_TAKE_FOCUS)
+            ew.display.flush()
         else:
             raise UnsupportedOsException()
 

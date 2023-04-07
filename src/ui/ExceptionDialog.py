@@ -3,7 +3,7 @@ import traceback
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QTextEdit
 
-from lib.common import get_monospace_font
+from base.common import get_monospace_font
 
 
 class ExceptionDialog(QDialog):

@@ -5,8 +5,8 @@ block_cipher = None
 
 
 a = Analysis(
-    ['src/main.py'],
-    pathex=['src'],
+    ['--icon res/icon.png', '--distpath dist/bfv-hacker-checker', '--name bfv-hacker-checker'],
+    pathex=['srcsrc/main.py'],
     binaries=[],
     datas=[],
     hiddenimports=[],
@@ -28,7 +28,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='bfv-hacker-checker',
+    name='icon',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -41,5 +41,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['res/icon.png'],
 )
