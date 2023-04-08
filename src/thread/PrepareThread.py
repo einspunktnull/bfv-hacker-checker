@@ -1,5 +1,6 @@
 import os
 import sys
+from time import sleep
 from typing import Final
 
 from PyQt5.QtCore import pyqtSignal, QObject

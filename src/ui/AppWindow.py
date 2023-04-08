@@ -10,6 +10,7 @@ from injector import inject
 from service.ConfigService import ConfigService
 from service.LoggingService import LoggingService
 from base.common import OS_PLATFORM_LINUX, get_monospace_font, NoPlayernameFoundException
+from service.PrepareService import PrepareService
 from ui.AbstractBaseWindow import AbstractBaseWindow
 from service.DetectPlayerNameService import DetectPlayerNameService
 from ui.AboutDialog import AboutDialog
@@ -25,10 +26,12 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
             config: ConfigService,
             logger: LoggingService,
             detect_player_name_service: DetectPlayerNameService,
+            prepare_service: PrepareService,
             debug_window: DebugWindow,
             about_dialog: AboutDialog
     ):
         self.__detect_player_name_service: DetectPlayerNameService = detect_player_name_service
+        self.__prepare_service: PrepareService = prepare_service
         self.__web_View: QWebEngineView = QWebEngineView()
         self.__debug_window: DebugWindow = debug_window
         self.__about_dialog: AboutDialog = about_dialog
@@ -50,6 +53,8 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
         self._ui.actionAbout.triggered.connect(self.__on_about_click)
         self.__detect_player_name_service.signal_detection_result.connect(self.__on_playername_detected)
         self.__detect_player_name_service.signal_exception.connect(self.__on_exception)
+        self.__prepare_service.signal_status.connect(self.__on_prep_status)
+        self.__prepare_service.signal_exception.connect(self.__on_exception)
 
     def _get_ui(self) -> Type[Ui_AppWindow]:
         return Ui_AppWindow
@@ -59,6 +64,7 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
         super().closeEvent(event)
 
     def check_playername(self, player_name: str):
+        self.show_status_message(f'request hacker lookup for: {player_name}')
         url: QUrl = QUrl(self._config.url)
         query = QUrlQuery()
         query.addQueryItem('name', player_name)
@@ -75,8 +81,11 @@ class AppWindow(AbstractBaseWindow[Ui_AppWindow]):
 
     @pyqtSlot(str)
     def __on_playername_detected(self, player_name: str) -> None:
-        self.show_status_message(f'request hacker lookup for: {player_name}')
         self.check_playername(player_name)
+
+    @pyqtSlot(str)
+    def __on_prep_status(self, message: str) -> None:
+        self.show_status_message(message)
 
     @pyqtSlot(Exception)
     def __on_exception(self, exception: Exception) -> None:
