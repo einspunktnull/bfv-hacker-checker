@@ -1,4 +1,5 @@
 import os
+import sys
 from argparse import ArgumentParser, Namespace
 from configparser import ConfigParser
 from typing import Final
@@ -7,7 +8,7 @@ from PyQt5.QtCore import QObject
 
 from base.Hotkey import Hotkey
 from base.Loglevel import Loglevel
-from base.common import ConfigException
+from base.common import ConfigException, OS_PLATFORM_WINDOWS
 from version import VERSION
 
 _APP_NAME: Final[str] = 'Battlefield V Hacker Checker'
@@ -18,7 +19,9 @@ _BIN_DIR: Final[str] = os.path.join(_ROOT_DIR, "bin")
 _LOG_DIR: Final[str] = os.path.join(_ROOT_DIR, 'log')
 _TESS_ZIP_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR.zip')
 _TESS_DIR_PATH: Final[str] = os.path.join(_BIN_DIR, 'Tesseract-OCR')
-_TESS_EXE_PATH: Final[str] = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
+_TESS_EXE_PATH_WINDOWS: Final[str] = os.path.join(_TESS_DIR_PATH, 'tesseract.exe')
+_TESS_EXE_PATH_LINUX: Final[str] = os.path.join(_BIN_DIR, 'tesseract-5.3.0-x86_64.AppImage')
+_TESS_EXE_PATH: Final[str] = _TESS_EXE_PATH_WINDOWS if sys.platform == OS_PLATFORM_WINDOWS else _TESS_EXE_PATH_LINUX
 _LOGGER_NAME: Final[str] = 'THA_LOGGA'
 
 
@@ -62,7 +65,8 @@ class ConfigService(QObject):
 
     @property
     def tesseract_exe(self) -> str:
-        return _TESS_EXE_PATH
+        cfg_tess_exe: str = self.__config_parser.get('user', 'tesseract_exe', fallback=None)
+        return cfg_tess_exe if cfg_tess_exe else _TESS_EXE_PATH
 
     @property
     def tesseract_zip(self) -> str:

@@ -27,8 +27,12 @@ class PrepareThread(BaseThread):
                 FileUtil.merge_files(self._config.tesseract_zip, self._config.tesseract_zip)
                 FileUtil.unzip(self._config.tesseract_zip, self._config.bin_dir)
                 self.signal_status.emit('... done')
-            if sys.platform == OS_PLATFORM_WINDOWS and os.path.exists(self._config.tesseract_exe):
+            if os.path.exists(self._config.tesseract_exe):
+                self._logger.info(f'tesseract executable found "{self._config.tesseract_exe}"')
                 pytesseract.tesseract_cmd = self._config.tesseract_exe
+            else:
+                self._logger.warning(f'tesseract not found on specified path: "{self._config.tesseract_exe}"')
+                self._logger.info(f'try using tesseract executable "{pytesseract.tesseract_cmd}"')
             self.signal_finished.emit()
         except Exception as exc:
             self.signal_exception.emit(exc)
