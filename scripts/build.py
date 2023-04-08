@@ -35,13 +35,15 @@ if __name__ == '__main__':
     else:
         FileUtil.copy('config.release.ini', os.path.join(DIST_DIR, 'config.ini'))
     FileUtil.copy('README.md', DIST_DIR)
+    os.makedirs(BIN_DIR)
     if sys.platform == OS_PLATFORM_WINDOWS:
-        os.makedirs(BIN_DIR)
         FileUtil.copy(os.path.join('bin', 'Tesseract-OCR.zip_part0'), BIN_DIR)
         FileUtil.copy(os.path.join('bin', 'Tesseract-OCR.zip_part1'), BIN_DIR)
         FileUtil.copy(os.path.join('bin', 'Tesseract-OCR.zip_part2'), BIN_DIR)
         FileUtil.copy(os.path.join('bin', 'Tesseract-OCR.zip_part3'), BIN_DIR)
         FileUtil.copy(os.path.join('bin', 'Tesseract-OCR.zip_part4'), BIN_DIR)
+    elif sys.platform == OS_PLATFORM_LINUX:
+        FileUtil.copy(os.path.join('bin', 'tesseract-5.3.0-x86_64.AppImage'), BIN_DIR)
     directory: str = os.path.join('dist', BASE_NAME)
     dest_zip_name: str = f'bfv-hacker-checker_{version.replace(".", "_")}_{sys.platform}.zip'
     dest_zip: str = os.path.join('dist', dest_zip_name)
