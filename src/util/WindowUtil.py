@@ -1,7 +1,5 @@
 from typing import List
 
-import ewmh
-
 from base.common import (
     BoundingBox,
     InvalidWindowHandleException,
