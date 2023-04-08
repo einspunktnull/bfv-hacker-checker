@@ -10,7 +10,7 @@ from thread.BaseThread import BaseThread
 
 
 class UserInputListenerThread(BaseThread):
-    __signal_event: PyQtSignal = pyqtSignal(int, int)
+    signal_event: PyQtSignal = pyqtSignal(int, int)
 
     def __init__(self, parent: QObject, config: ConfigService, logger: LoggingService):
         super().__init__(parent, config, logger)
@@ -20,10 +20,6 @@ class UserInputListenerThread(BaseThread):
             on_release=self.__on_key_release
         )
         self.__mouse_listener: mouse.Listener = mouse.Listener(on_click=self.__on_mouse_click)
-
-    @property
-    def signal_event(self) -> PyQtSignal:
-        return self.__signal_event
 
     def run(self) -> None:
         self.__keyboard_listener.start()

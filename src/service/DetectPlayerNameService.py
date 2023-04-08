@@ -11,9 +11,9 @@ from thread.DetectPlayerNameThread import DetectPlayerNameThread
 
 
 class DetectPlayerNameService(QObject):
-    __signal_detection_result: Final[PyQtSignal] = pyqtSignal(str)
-    __signal_exception: Final[PyQtSignal] = pyqtSignal(Exception)
-    __signal_report: Final[PyQtSignal] = pyqtSignal(ndarray)
+    signal_detection_result: Final[PyQtSignal] = pyqtSignal(str)
+    signal_exception: Final[PyQtSignal] = pyqtSignal(Exception)
+    signal_report: Final[PyQtSignal] = pyqtSignal(ndarray)
 
     @inject
     def __init__(self, config: ConfigService, logger: LoggingService):
@@ -21,18 +21,6 @@ class DetectPlayerNameService(QObject):
         self.__config: ConfigService = config
         self.__logger: LoggingService = logger
         self.__detect_thread: Optional[DetectPlayerNameThread] = None
-
-    @property
-    def signal_detection_result(self) -> PyQtSignal:
-        return self.__signal_detection_result
-
-    @property
-    def signal_exception(self) -> PyQtSignal:
-        return self.__signal_exception
-
-    @property
-    def signal_report(self) -> PyQtSignal:
-        return self.__signal_report
 
     def detect(self, mouse_x: int, mouse_y: int) -> None:
         if self.__detect_thread is None:

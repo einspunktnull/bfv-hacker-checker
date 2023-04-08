@@ -13,7 +13,7 @@ from util.StringUtil import StringUtil
 class LoggingService(QObject, logging.Handler):
     DEFAULT_FORMATTER: Final[logging.Formatter] = logging.Formatter('[%(asctime)s - %(levelname)s] %(message)s')
 
-    __signal_message: Final[PyQtSignal] = pyqtSignal(str)
+    signal_message: Final[PyQtSignal] = pyqtSignal(str)
 
     #
     @inject
@@ -40,10 +40,6 @@ class LoggingService(QObject, logging.Handler):
         )
         file_handler.formatter = self.DEFAULT_FORMATTER
         self.__logger.addHandler(file_handler)
-
-    @property
-    def signal_message(self) -> PyQtSignal:
-        return self.__signal_message
 
     def emit(self, record: logging.LogRecord):
         message: str = self.format(record)

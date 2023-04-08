@@ -17,7 +17,7 @@ from ui_generated.Ui_DebugWindow import Ui_DebugWindow
 
 
 class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
-    __signal_close: Final[PyQtSignal] = pyqtSignal()
+    signal_close: Final[PyQtSignal] = pyqtSignal()
 
     @inject
     def __init__(
@@ -46,10 +46,6 @@ class DebugWindow(AbstractBaseWindow[Ui_DebugWindow]):
 
     def _get_ui(self) -> Type[Ui_DebugWindow]:
         return Ui_DebugWindow
-
-    @property
-    def signal_close(self) -> PyQtSignal:
-        return self.__signal_close
 
     def closeEvent(self, event: QCloseEvent):
         super().closeEvent(event)

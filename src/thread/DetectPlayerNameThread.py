@@ -19,8 +19,8 @@ from util.WindowUtil import WindowUtil
 class DetectPlayerNameThread(BaseThread):
     __BFV_WINDOW_TITLE: Final[str] = 'Battlefield™ V'
     __PATTERN_PLAYERNAME_REPLACE: Final[str] = r"\[\S{2,4}\]\ ?"
-    __signal_report: Final[PyQtSignal] = pyqtSignal(ndarray)
-    __signal_finished: Final[PyQtSignal] = pyqtSignal(str)
+    signal_report: Final[PyQtSignal] = pyqtSignal(ndarray)
+    signal_finished: Final[PyQtSignal] = pyqtSignal(str)
 
     def __init__(self, parent: QObject, config: ConfigService, logger: LoggingService, mouse_x: int, mouse_y: int):
         super().__init__(parent, config, logger)
@@ -28,14 +28,6 @@ class DetectPlayerNameThread(BaseThread):
         self.__mouse_y: int = mouse_y
         self.__poi_width_half: int = int(self._config.poi_width / 2)
         self.__poi_height_half: int = int(self._config.poi_height / 2)
-
-    @property
-    def signal_report(self) -> PyQtSignal:
-        return self.__signal_report
-
-    @property
-    def signal_finished(self) -> PyQtSignal:
-        return self.__signal_finished
 
     def run(self):
         try:

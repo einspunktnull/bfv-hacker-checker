@@ -13,19 +13,11 @@ from util.FileUtil import FileUtil
 
 
 class PrepareThread(BaseThread):
-    __signal_status: Final[PyQtSignal] = pyqtSignal(str)
-    __signal_finished: Final[PyQtSignal] = pyqtSignal()
+    signal_status: Final[PyQtSignal] = pyqtSignal(str)
+    signal_finished: Final[PyQtSignal] = pyqtSignal()
 
     def __init__(self, parent: QObject, config: ConfigService, logger: LoggingService):
         super().__init__(parent, config, logger)
-
-    @property
-    def signal_status(self) -> PyQtSignal:
-        return self.__signal_status
-
-    @property
-    def signal_finished(self) -> PyQtSignal:
-        return self.__signal_finished
 
     def run(self):
         try:

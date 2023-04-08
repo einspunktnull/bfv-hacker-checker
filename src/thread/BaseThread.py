@@ -8,16 +8,12 @@ from base.common import PyQtSignal
 
 
 class BaseThread(QThread):
-    __signal_exception: Final[PyQtSignal] = pyqtSignal(Exception)
+    signal_exception: Final[PyQtSignal] = pyqtSignal(Exception)
 
     def __init__(self, parent: QObject, config: ConfigService, logger: LoggingService):
         super().__init__(parent)
         self.__config: ConfigService = config
         self.__logger: LoggingService = logger
-
-    @property
-    def signal_exception(self) -> PyQtSignal:
-        return self.__signal_exception
 
     @property
     def _config(self) -> ConfigService:
@@ -27,5 +23,5 @@ class BaseThread(QThread):
     def _logger(self) -> LoggingService:
         return self.__logger
 
-    def emit_exception(self, exception: Exception) -> None:
+    def _emit_exception(self, exception: Exception) -> None:
         self.signal_exception.emit(exception)
