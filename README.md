@@ -30,6 +30,10 @@ NOTE: for innofficial Linux see [Inofficial Linux Support](#inofficial-linux-sup
 There is no installation needed. Just unzip the `bfv-hacker-checker.zip`
 to a location of your choice. This application is portable.
 
+## Download Release
+
+[Download a release here](https://github.com/einspunktnull/bfv-hacker-checker/releases)
+
 ## How to use
 
 Just run the `bfv-hacker-checker.exe`.
